@@ -1,5 +1,5 @@
 <template>
-Simulator
+TPS Simulator
 </template>
 
 <script>
