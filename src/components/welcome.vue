@@ -6,8 +6,6 @@
 </template>
 
 <script>
-import Panel from 'primevue/panel/sfc';
-
 export default {
      data() {
         return {

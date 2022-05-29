@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "Virtual-TPS",
+			"path": "."
+		},
+		{
+			"name": "RecosUI",
+			"path": "..\\ReCoS-Remote-Command-Service\\webclient\\RecosUI"
+		},
+		{
+			"name": "recosadmin",
+			"path": "..\\ReCoS-Remote-Command-Service\\webclient\\recosadmin"
+		}
+	],
+	"settings": {}
+}
