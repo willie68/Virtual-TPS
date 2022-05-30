@@ -5,6 +5,7 @@ import Button from 'primevue/button/sfc';
 import Welcome from './components/welcome.vue';
 import Assembler from './components/assembler.vue';
 import Simulator from './components/simulator.vue';
+
 </script>
 
 <template>
@@ -13,14 +14,16 @@ import Simulator from './components/simulator.vue';
 
   <main>
     <Welcome></Welcome>
-    <Splitter style="height: 300px">
-	    <SplitterPanel>
+    
+    <div class="grid">
+      <div class="col">
         <Assembler></Assembler>
-	    </SplitterPanel>
-	    <SplitterPanel>
-		    <Simulator></Simulator>
-	    </SplitterPanel>
-    </Splitter>
+      </div>
+      <div class="col">
+        <Simulator></Simulator>
+      </div>
+    </div>
+
     <Button label="Show" icon="pi pi-external-link" @click="openBasic"></Button>
     <Dialog header="Header" v-model:visible="displayBasic" >
 	  Content
