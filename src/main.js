@@ -21,6 +21,8 @@ import InputSwitch from 'primevue/inputswitch';
 import Knob from 'primevue/knob';
 import RadioButton from 'primevue/radiobutton';
 import ToggleButton from 'primevue/togglebutton';
+import InputNumber from 'primevue/inputnumber';
+import Listbox from 'primevue/listbox';
 
 const app = createApp(App);
 
@@ -41,5 +43,7 @@ app.component('InputSwitch', InputSwitch);
 app.component('Knob', Knob);
 app.component('RadioButton', RadioButton);
 app.component('ToggleButton', ToggleButton);
+app.component('InputNumber', InputNumber);
+app.component('Listbox', Listbox);
 
 app.mount('#app')

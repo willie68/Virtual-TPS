@@ -16,10 +16,10 @@ import Simulator from './components/simulator.vue';
     <Welcome></Welcome>
     
     <div class="grid">
-      <div class="col">
+      <div class="col-4">
         <Assembler></Assembler>
       </div>
-      <div class="col">
+      <div class="col-8">
         <Simulator></Simulator>
       </div>
     </div>

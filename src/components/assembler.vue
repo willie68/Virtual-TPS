@@ -4,7 +4,7 @@
         <div class="toolbar-label">TPS Assembler</div>
     </template>
 </Toolbar>
-<Textarea v-model="source" rows="20" cols="60"></Textarea>
+<Textarea v-model="source" rows="20" cols="40"></Textarea>
 </template>
 
 <script>
