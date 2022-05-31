@@ -23,11 +23,6 @@ import Simulator from './components/simulator.vue';
         <Simulator></Simulator>
       </div>
     </div>
-
-    <Button label="Show" icon="pi pi-external-link" @click="openBasic"></Button>
-    <Dialog header="Header" v-model:visible="displayBasic" >
-	  Content
-  </Dialog>
   </main>
 </template>
 

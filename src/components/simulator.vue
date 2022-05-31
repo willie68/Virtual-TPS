@@ -1,162 +1,41 @@
 <template>
-<Toolbar>
-    <template #start>
-        <div class="toolbar-label">TPS Simulator</div>
-    </template>
-    <template #end>
-        <Button class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'"></Button>
-        <Button class="p-button-rounded" icon="pi pi-step-forward-alt" v-tooltip.bottom="'next step'"></Button>
-        <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'"></Button>
-        <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'"></Button>
-    </template>
-</Toolbar>
+    <Toolbar>
+        <template #start>
+            <div class="toolbar-label">TPS Simulator</div>
+        </template>
+        <template #end>
+            <Button class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'" @click="start()"></Button>
+            <Button class="p-button-rounded" icon="pi pi-step-forward-alt" v-tooltip.bottom="'next step'"
+                @click="next()"></Button>
+            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'"></Button>
+            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'"></Button>
+        </template>
+    </Toolbar>
     <div class="grid">
         <div class="col">
-            <Panel header="Inputs">  
-                <div class="grid">
-                    <div class="col">
-                        <label for="Din1">Din 1</label><br/>
-                        <InputSwitch id="Din1" name="Din 1" v-model="din1" :change="oninchange()"/>
-                    </div>
-                    <div class="col">
-                        <label for="Din2">Din 2</label><br/>
-                        <InputSwitch id="Din2" name="Din 2" v-model="din2" :change="oninchange()"/>
-                    </div>
-                    <div class="col">
-                        <label for="Din3">Din 3</label><br/>
-                        <InputSwitch id="Din3" name="Din 3" v-model="din3" :change="oninchange()"/>
-                    </div>
-                    <div class="col">
-                        <label for="Din4">Din 4</label><br/>
-                        <InputSwitch id="Din4" name="Din 4" v-model="din4" :change="oninchange()"/>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="col">
-                        <label for="ADC1">ADC 1</label><br/>
-                        <Knob id="ADC1" name="ADC1" v-model="adc1" :min="0" :max="100" valueTemplate="{value}%"  :change="onadcchange()" :size="70" />
-                    </div>
-                    <div class="col">
-                        <label for="ADC2">AD 2</label><br/>
-                        <Knob id="ADC2" name="ADC2" v-model="adc2" :min="0" :max="100" valueTemplate="{value}%" :change="onadcchange()" :size="70"/>
-                    </div>
-                    <div class="col">
-                        <label for="RC1">RC 1</label><br/>
-                        <Knob id="RC1" name="RC1" v-model="rc1" :min="0" :max="180" valueTemplate="{value}°"  :change="onrcchange()" :size="70"/>
-                    </div>
-                    <div class="col">
-                        <label for="RC2">RC 2</label><br/>
-                        <Knob id="RC2" name="RC2" v-model="rc2" :min="0" :max="180" valueTemplate="{value}°" :change="onrcchange()" :size="70"/>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="col">
-                        <label for="SEL">SEL</label><br/>
-                        <ToggleButton id="SEL" name="SEL" v-model="sel" onLabel="" offLabel="" onIcon="pi pi-check" offIcon="pi pi-times"/>
-                    </div>
-                    <div class="col">
-                        <label for="PRG">PRG</label><br/>
-                        <ToggleButton id="PRG" name="PRG" v-model="prg" onLabel="" offLabel="" onIcon="pi pi-check" offIcon="pi pi-times"/>
-                    </div>
-                </div>
-            </Panel>
-            <Panel header="Outputs">  
-                <div class="grid">
-                    <div class="col">
-                        <label for="Dout1">Dout 1</label><br/>
-                        <ToggleButton id="Dout1" name="Dout1" v-model="dout1" readonly="true" disabled="disabled" onLabel="" offLabel="" onIcon="pi pi-check" offIcon="pi pi-times"/>
-                    </div>
-                    <div class="col">
-                        <label for="Dout2">Dout 2</label><br/>
-                        <ToggleButton id="Dout2" name="Dout2" v-model="dout2" readonly="true" disabled="disabled" onLabel="" offLabel="" onIcon="pi pi-check" offIcon="pi pi-times"/>
-                    </div>
-                    <div class="col">
-                        <label for="Dout3">Dout 3</label><br/>
-                        <ToggleButton id="Dout3" name="Dout3" v-model="dout3" readonly="true" disabled="disabled" onLabel="" offLabel="" onIcon="pi pi-check" offIcon="pi pi-times"/>
-                    </div>
-                    <div class="col">
-                        <label for="Dout4">Din 4</label><br/>
-                        <ToggleButton id="Dout4" name="Dout4" v-model="dout4" readonly="true" disabled="disabled" onLabel="" offLabel="" onIcon="pi pi-check" offIcon="pi pi-times"/>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="col">
-                        <label for="PWM1">PWM 1</label><br/>
-                        <Knob id="PWM1" name="PWM1" v-model="pwm1" :min="0" :max="100" readonly="true" valueTemplate="{value}%" :size="70"/>
-                    </div>
-                    <div class="col">
-                        <label for="PWM2">PWM 2</label><br/>
-                        <Knob id="PWM2" name="PWM2" v-model="pwm2" :min="0" :max="100" readonly="true" valueTemplate="{value}%" :size="70"/>
-                    </div>
-                    <div class="col">
-                        <label for="SRV1">Servo 1</label><br/>
-                        <Knob id="SRV1" name="SRV1" v-model="srv1" :min="0" :max="180" readonly="true"  valueTemplate="{value}°" :size="70"/>
-                    </div>
-                    <div class="col">
-                        <label for="SRV2">Servo 2</label><br/>
-                        <Knob id="SRV2" name="SRV2" v-model="srv2" :min="0" :max="180" readonly="true"  valueTemplate="{value}°" :size="70"/>
-                    </div>
-                </div>
-            </Panel>
+            <Siminputs v-model:din1="din1" v-model:din2="din2" v-model:din3="din3" v-model:din4="din4"
+                v-model:adc1="adc1" v-model:adc2="adc2" v-model:rc1="rc1" v-model:rc2="rc2" v-model:prg="prg"
+                v-model:sel="sel"></Siminputs>
+            <Simoutputs :dout1="dout1" :dout2="dout2" :dout3="dout3" :dout4="dout4" :pwm1="pwm1" :pwm2="pwm2"
+                :srv1="srv1" :srv2="srv2"></Simoutputs>
         </div>
         <div class="col">
-            <Panel header="Internal">  
-                <div class="grid">
-                    <div class="col">
-                        <label for="rega">A</label><br/>
-                        <InputNumber id="rega" v-model="rega" size="4" mode="decimal" v-tooltip="'Register A'" :readonly="true"></InputNumber>
-                    </div>
-                    <div class="col">
-                        <label for="regb">B</label><br/>
-                        <InputNumber id="regb" v-model="regb" size="4" mode="decimal" v-tooltip="'Register B'" :readonly="true"></InputNumber>
-                    </div>
-                    <div class="col">
-                        <label for="addr">Addr</label><br/>
-                        <InputNumber id="addr" v-model="addr" size="4" mode="decimal" v-tooltip="'Adresse'" :readonly="true"></InputNumber>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="col">
-                        <label for="regc">C</label><br/>
-                        <InputNumber id="regc" v-model="regc" size="4" mode="decimal" v-tooltip="'Register C'" :readonly="true"></InputNumber>
-                    </div>
-                    <div class="col">
-                        <label for="regd">D</label><br/>
-                        <InputNumber id="regd" v-model="regd" size="4" mode="decimal" v-tooltip="'Register D'" :readonly="true"></InputNumber>
-                    </div>
-                    <div class="col">
-                        <label for="page">Page</label><br/>
-                        <InputNumber id="page" v-model="page" size="4" mode="decimal" v-tooltip="'Page'" :readonly="true"></InputNumber>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="col">
-                        <label for="rege">E</label><br/>
-                        <InputNumber id="rege" v-model="rege" size="4" mode="decimal" v-tooltip="'Register E'" :readonly="true"></InputNumber>
-                    </div>
-                    <div class="col">
-                        <label for="regf">F</label><br/>
-                        <InputNumber id="regf" v-model="regf" size="4" mode="decimal" v-tooltip="'Register F'" :readonly="true"></InputNumber>
-                    </div>
-                    <div class="col">
-                        <label for="raddr">RAddr</label><br/>
-                        <InputNumber id="raddr" v-model="raddr" size="4" mode="decimal" v-tooltip="'Rücksprungadresse'" :readonly="true"></InputNumber>
-                    </div>
-                </div>
-                <label for="stack">Stack</label><br/>
-                <Listbox id="stack" :options="stack" :readonly="true" emptyMessage="no stack"></Listbox>
-            </Panel>
+            <Siminternal :rega="rega" :regb="regb" :regc="regc" :regd="regd" :rege="rege" :regf="regf" :addr="addr"
+                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly"></Siminternal>
         </div>
     </div>
 </template>
 
 <script>
+import Siminputs from './siminputs.vue';
+import Simoutputs from './simoutputs.vue';
+import Siminternal from './siminternal.vue';
 export default {
-     data() {
+    data() {
         return {
             din1: false,
-            din2: false, 
-            din3: false, 
+            din2: false,
+            din3: false,
             din4: false,
             adc1: 0,
             adc2: 0,
@@ -181,10 +60,380 @@ export default {
             addr: 0,
             page: 0,
             raddr: 0,
-            stack: [ ]
-        }
+            stack: [],
+            callstack: [],
+            src: [0x54, 0x4f, 0x32],
+            cmd: 0,
+            data: 0,
+            dly: 0
+        };
     },
     methods: {
+        start() {
+            this.reset();
+            this.next();
+        },
+        next() {
+            this.addr += 1;
+            if (this.src.length > this.addr) {
+                console.log("next step: ", this.addr)
+                const element = this.src[this.addr];
+                console.log(element);
+                this.cmd = (element & 0xF0) >> 4;
+                this.data = element & 0x0F;
+                this.executeCommand(this.cmd, this.data);
+            }
+        },
+        reset() {
+            this.rega = 0;
+            this.regb = 0;
+            this.regc = 0;
+            this.regd = 0;
+            this.rege = 0;
+            this.regf = 0;
+            this.addr = -1;
+            this.page = 0;
+            this.raddr = 0;
+            this.stack = [];
+            this.dly = 0;
+            this.callstack = [];
+        },
+        executeCommand(cmd, data) {
+            switch (cmd) {
+                case 1:
+                    this.doPort(data);
+                    break;
+                case 2:
+                    this.doDelay(data);
+                    break;
+                case 3:
+                    this.addr = this.addr - data - 1;
+                    break;
+                case 4:
+                    this.rega = data;
+                    break;
+                case 5:
+                    this.doIsA(data);
+                    break;
+                case 6:
+                    this.doAIs(data);
+                    break;
+                case 7:
+                    this.doCalc(data);
+                    break;
+                case 8:
+                    this.page = data;
+                    break;
+                case 9:
+                    this.addr = (16 * this.page) + data - 1;
+                    break;
+                case 10:
+                    if (this.regc > 0) {
+                        this.regc -= 1;
+                        this.regc &= 0x0F;
+                        this.addr = (16 * this.page) + data - 1;
+                    }
+                    break;
+                case 11:
+                    if (this.regd > 0) {
+                        this.regd -= 1;
+                        this.regd &= 0x0F;
+                        this.addr = (16 * this.page) + data - 1;
+                    }
+                    break;
+                case 12:
+                    this.doSkipIf(data);
+                    break;
+                case 13:
+                    this.callstack.push(this.addr);
+                    this.addr = (16 * this.page) + data;
+                    break;
+                case 14:
+                    if (data == 0) {
+                        if (this.callstack.length > 0) {
+                            this.addr = this.callstack.pop();
+                        } else {
+                            this.reset();
+                        }
+                    }
+                    if (data == 15) {
+                        this.reset();
+                    }
+                    break;
+                case 15:
+                    this.doByte(data);
+                    break;
+                default:
+                    break;
+            }
+        },
+        doPort(data) {
+            this.dout1 = (data & 0x01) > 0
+            this.dout2 = (data & 0x02) > 0
+            this.dout3 = (data & 0x04) > 0
+            this.dout4 = (data & 0x08) > 0
+        },
+        doDelay(data) {
+            let delays = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1, 2, 5, 10, 20, 30, 60];
+            let myms = delays[data];
+            this.dly = myms;
+        },
+        doIsA(data) {
+            switch (data) {
+                case 0:
+                    let a = this.rega;
+                    this.rega = this.regb;
+                    this.regb = a;
+                    break;
+                case 1:
+                    this.regb = this.rega;
+                    break;
+                case 2:
+                    this.regc = this.rega;
+                    break;
+                case 3:
+                    this.regd = this.rega;
+                    break;
+                case 4:
+                    this.doPort(this.rega);
+                    break;
+                case 5:
+                    this.dout1 = (this.rega & 1) > 0;
+                    break;
+                case 6:
+                    this.dout2 = (this.rega & 1) > 0;
+                    break;
+                case 7:
+                    this.dout3 = (this.rega & 1) > 0;
+                    break;
+                case 8:
+                    this.dout4 = (this.rega & 1) > 0;
+                    break;
+                case 9:
+                    this.pwm1 = Math.round(this.rega / 16.0 * 100.0);
+                    break;
+                case 10:
+                    this.pwm2 = Math.round(this.rega / 16.0 * 100.0);
+                    break;
+                case 11:
+                    this.srv1 = Math.round(this.rega / 16.0 * 180.0);
+                    break;
+                case 12:
+                    this.srv2 = Math.round(this.rega / 16.0 * 180.0);
+                    break;
+                case 13:
+                    this.rege = this.rega;
+                    break;
+                case 14:
+                    this.regf = this.rega;
+                    break;
+                case 15: // push
+                    if (this.stack.length < 16) {
+                        this.stack.push(this.rega)
+                    }
+                    break;
+                default:
+                    break;
+            }
+        },
+        doAIs(data) {
+            switch (data) {
+                case 1:
+                    this.rega = this.regb;
+                    break;
+                case 2:
+                    this.rega = this.regc;
+                    break;
+                case 3:
+                    this.rega = this.regd;
+                    break;
+                case 4:
+                    this.rega = (this.din1 | 0) + ((this.din2 | 0) << 1) + ((this.din3 | 0) << 2) + ((this.din4 | 0) << 3);
+                    break;
+                case 5:
+                    this.rega = this.din1 | 0;
+                    break;
+                case 6:
+                    this.rega = this.din2 | 0;
+                    break;
+                case 7:
+                    this.rega = this.din3 | 0;
+                    break;
+                case 8:
+                    this.rega = this.din4 | 0;
+                    break;
+                case 9:
+                    this.rega = Math.round(this.adc1 / 100.0 * 16.0);
+                    break;
+                case 10:
+                    this.rega = Math.round(this.adc2 / 100.0 * 16.0);
+                    break;
+                case 11:
+                    this.rega = Math.round(this.rc1 / 180.0 * 16.0);
+                    break;
+                case 12:
+                    this.rega = Math.round(this.rc2 / 180.0 * 16.0);
+                    break;
+                case 13:
+                    this.rega = this.rege;
+                    break;
+                case 14:
+                    this.rega = this.regf;
+                    break;
+                case 15: // pop
+                    if (this.stack.length > 0) {
+                        this.rega = this.stack.pop()
+                    }
+                    break;
+                default:
+                    break;
+            }
+        },
+        doCalc(data) {
+            switch (data) {
+                case 1:
+                    this.rega += 1;
+                    break;
+                case 2:
+                    this.rega -= 1;
+                    break;
+                case 3:
+                    this.rega += this.regb;
+                    break;
+                case 4:
+                    this.rega -= this.regb;
+                    break;
+                case 5:
+                    this.rega *= this.regb;
+                    break;
+                case 6:
+                    this.rega /= this.regb;
+                    break;
+                case 7:
+                    this.rega &= this.regb;
+                    break;
+                case 8:
+                    this.rega |= this.regb;
+                    break;
+                case 9:
+                    this.rega ^= this.regb;
+                    break;
+                case 10:
+                    this.rega = ~this.rega;
+                    break;
+                case 11:
+                    this.rega %= this.regb;
+                    break;
+                case 12:
+                    this.rega = (16 * this.rega) + this.regb;
+                    break;
+                case 13:
+                    this.rega = this.regb - this.rega;
+                    break;
+                case 14:
+                    this.rega = this.rega >> 1;
+                    break;
+                case 15:
+                    this.rega = this.rega << 1;
+                    break;
+                default:
+                    break;
+            }
+            this.rega = this.rega & 0xFF;
+        },
+        doSkipIf(data) {
+            let skip = false;
+            switch (data) {
+                case 0:
+                    skip = this.rega == 0;
+                    break;
+                case 1:
+                    skip = this.rega > this.regb;
+                    break;
+                case 2:
+                    skip = this.rega < this.regb;
+                    break;
+                case 3:
+                    skip = this.rega == this.regb;
+                    break;
+                case 4:
+                    skip = this.din1;
+                    break;
+                case 5:
+                    skip = this.din2;
+                    break;
+                case 6:
+                    skip = this.din3;
+                    break;
+                case 7:
+                    skip = this.din4;
+                    break;
+                case 8:
+                    skip = !this.din1;
+                    break;
+                case 9:
+                    skip = !this.din2;
+                    break;
+                case 10:
+                    skip = !this.din3;
+                    break;
+                case 11:
+                    skip = !this.din4;
+                    break;
+                case 12:
+                    skip = this.prg;
+                    break;
+                case 13:
+                    skip = this.sel;
+                    break;
+                case 14:
+                    skip = !this.prg;
+                    break;
+                case 15:
+                    skip = !this.sel;
+                    break;
+                default:
+                    break;
+            }
+            if (skip) {
+                this.addr += 1;
+            }
+        },
+        doByte(data) {
+            switch (data) {
+                case 0:
+                    this.rega = Math.round((this.adc1 / 100.0) * 256);
+                    break;
+                case 1:
+                    this.rega = Math.round((this.adc2 / 100.0) * 256);
+                    break;
+                case 2:
+                    this.rega = Math.round((this.rc1 / 180.0) * 256);
+                    break;
+                case 3:
+                    this.rega = Math.round((this.rc2 / 180.0) * 256);
+                    break;
+                case 4:
+                    this.pwm1 = Math.round((this.rega / 256.0) * 100.0);
+                    break;
+                case 5:
+                    this.pwm2 = Math.round((this.rega / 256.0) * 100.0);
+                    break;
+                case 6:
+                    this.srv1 = Math.round((this.rega / 256.0) * 180.0);
+                    break;
+                case 7:
+                    this.srv2 = Math.round((this.rega / 256.0) * 180.0);
+                    break;
+                case 8:
+                    // tone is not implemented
+                    this.tone = this.rega;
+                    break;
+                default:
+                    break;
+            }
+            this.rega = this.rega & 0xFF;
+        },
         onadcchange() {
             this.pwm1 = this.adc1;
             this.pwm2 = this.adc2;
@@ -205,6 +454,33 @@ export default {
                 event.stopPropagation();
             }
         }
-    }
+    },
+    watch: {
+        din1(din1) {
+            this.oninchange();
+        },
+        din2(din2) {
+            this.oninchange();
+        },
+        din3(din3) {
+            this.oninchange();
+        },
+        din4(din4) {
+            this.oninchange();
+        },
+        adc1(adc1) {
+            this.onadcchange();
+        },
+        adc2(adc2) {
+            this.onadcchange();
+        },
+        rc1(rc1) {
+            this.onrcchange();
+        },
+        rc2(rc2) {
+            this.onrcchange();
+        },
+    },
+    components: { Siminputs, Simoutputs, Siminternal }
 }
 </script>
