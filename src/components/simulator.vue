@@ -31,6 +31,9 @@ import Siminputs from './siminputs.vue';
 import Simoutputs from './simoutputs.vue';
 import Siminternal from './siminternal.vue';
 export default {
+    props: {
+        bin: Array,
+    },
     data() {
         return {
             din1: false,
@@ -62,15 +65,17 @@ export default {
             raddr: 0,
             stack: [],
             callstack: [],
-            src: [0x54, 0x4f, 0x32],
+            src: [],
             cmd: 0,
             data: 0,
-            dly: 0
+            dly: 0,
         };
     },
     methods: {
         start() {
             this.reset();
+            this.src = this.bin;
+            console.log("src: ", this.bin, " ", this.src)
             this.next();
         },
         next() {
@@ -456,30 +461,6 @@ export default {
         }
     },
     watch: {
-        din1(din1) {
-            this.oninchange();
-        },
-        din2(din2) {
-            this.oninchange();
-        },
-        din3(din3) {
-            this.oninchange();
-        },
-        din4(din4) {
-            this.oninchange();
-        },
-        adc1(adc1) {
-            this.onadcchange();
-        },
-        adc2(adc2) {
-            this.onadcchange();
-        },
-        rc1(rc1) {
-            this.onrcchange();
-        },
-        rc2(rc2) {
-            this.onrcchange();
-        },
     },
     components: { Siminputs, Simoutputs, Siminternal }
 }

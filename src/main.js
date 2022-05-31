@@ -23,6 +23,8 @@ import RadioButton from 'primevue/radiobutton';
 import ToggleButton from 'primevue/togglebutton';
 import InputNumber from 'primevue/inputnumber';
 import Listbox from 'primevue/listbox';
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
 
 const app = createApp(App);
 
@@ -45,5 +47,7 @@ app.component('RadioButton', RadioButton);
 app.component('ToggleButton', ToggleButton);
 app.component('InputNumber', InputNumber);
 app.component('Listbox', Listbox);
+app.component('TabView', TabView);
+app.component('TabPanel', TabPanel);
 
 app.mount('#app')

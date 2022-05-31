@@ -17,10 +17,10 @@ import Simulator from './components/simulator.vue';
     
     <div class="grid">
       <div class="col-4">
-        <Assembler></Assembler>
+        <Assembler @updatebin="doBin($event)"></Assembler>
       </div>
       <div class="col-8">
-        <Simulator></Simulator>
+        <Simulator :bin="bin"></Simulator>
       </div>
     </div>
   </main>
@@ -32,11 +32,12 @@ import Simulator from './components/simulator.vue';
     data() {
       return {
         displayBasic: false,
+        bin: []
       }
     },
     methods: {
-      openBasic() {
-        this.displayBasic = true;
+      doBin(bin) {
+        this.bin = bin;
       }
     }
 }
