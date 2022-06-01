@@ -97,6 +97,11 @@ export default {
             this.regd = 0;
             this.rege = 0;
             this.regf = 0;
+            this.doPort(0);
+            this.pwm1 = 0;
+            this.pwm2 = 0;
+            this.srv1 = 0;
+            this.srv2 = 0;
             this.addr = -1;
             this.page = 0;
             this.raddr = 0;

@@ -11,7 +11,7 @@
         </template>
 
     </Toolbar>
-    <TabView>
+    <TabView v-model:activeIndex="tabIndex" >
         <TabPanel header="TPS File">
             <Textarea style="white-space: pre;  overflow: auto;" v-model="source" rows="20" cols="36"></Textarea>
         </TabPanel>
@@ -39,8 +39,10 @@ export default {
             hex: "",
             lines: [],
             bin: [],
+            com: [],
             selectedExample: {},
-            examples: []
+            examples: [],
+            tabIndex: 0
         }
     },
     mounted() {
@@ -61,6 +63,8 @@ export default {
     methods: {
         toSimu() {
             let mysrc = this.source.split("\n");
+            this.bin = [];
+            this.com = [];
             mysrc.forEach(element => {
                 if (!element.startsWith("#") && !(element === "")) {
                     let cmdsParts = element.split(",");
@@ -68,15 +72,17 @@ export default {
                     let cmd = Number("0x" + cmdsParts[1]);
                     let data = Number("0x" + cmdsParts[2]);
                     this.bin[addr] = (cmd * 16 + data) & 0xff;
+                    this.com[addr] = cmdsParts[3];
                 }
             });
             let addr = 0;
             this.lines = [];
             this.bin.forEach(element => {
-                let line = String(addr).padStart(4,'0') + ": " + element.toString(16);
+                let line = String(addr).padStart(4,'0') + ": " + element.toString(16) + "  " + this.com[addr];
                 this.lines.push(line)
                 addr++;
             });
+            this.tabIndex = 1;
             this.$emit('updatebin', this.bin)
         },
         loadExample() {
@@ -92,9 +98,9 @@ export default {
                 .catch((err) => console.log(err.message));
         },
         goto(refName) {
-            var element = this.$refs[refName];
-            var top = element.offsetTop;
-            window.scrollTo(0, top);
+            //var element = this.$refs[refName];
+            //var top = element.offsetTop;
+            //window.scrollTo(0, top);
         }
     },
     watch: {
