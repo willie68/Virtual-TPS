@@ -5,10 +5,10 @@
         </template>
         <template #end>
             <Button class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'" @click="start()"></Button>
+            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'"></Button>
             <Button class="p-button-rounded" icon="pi pi-step-forward-alt" v-tooltip.bottom="'next step'"
                 @click="next()"></Button>
-            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'"></Button>
-            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'"></Button>
+            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'" @click="reset()"></Button>
         </template>
     </Toolbar>
     <div class="grid">
@@ -21,7 +21,7 @@
         </div>
         <div class="col">
             <Siminternal :rega="rega" :regb="regb" :regc="regc" :regd="regd" :rege="rege" :regf="regf" :addr="addr"
-                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly"></Siminternal>
+                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly" :tone="tone"></Siminternal>
         </div>
     </div>
 </template>
@@ -70,18 +70,27 @@ export default {
             cmd: 0,
             data: 0,
             dly: 0,
+            started: false,
         };
     },
     methods: {
         start() {
-            this.reset();
-            this.src = this.bin;
-            this.next();
+            if (!this.started) {
+                this.reset();
+                this.src = this.bin;
+                this.next();
+            }
         },
         next() {
+            if (!this.started) {
+                this.reset();
+                this.src = this.bin;
+                this.started = true;
+            }
             this.addr += 1;
             this.$emit('updateAddr', this.addr)
             if (this.src.length > this.addr) {
+                this.dly = 0;
                 const element = this.src[this.addr];
                 this.cmd = (element & 0xF0) >> 4;
                 this.data = element & 0x0F;
@@ -108,6 +117,7 @@ export default {
             this.stack = [];
             this.dly = 0;
             this.callstack = [];
+            this.started = false;
             this.$emit('updateAddr', this.addr)
         },
         executeCommand(cmd, data) {
@@ -337,7 +347,7 @@ export default {
                     this.rega %= this.regb;
                     break;
                 case 12:
-                    this.rega = (16 * this.rega) + this.regb;
+                    this.rega += (16 * this.regb);
                     break;
                 case 13:
                     this.rega = this.regb - this.rega;
@@ -467,6 +477,9 @@ export default {
         }
     },
     watch: {
+        bin(bin) {
+            this.reset();
+        }
     },
     components: { Siminputs, Simoutputs, Siminternal }
 }
