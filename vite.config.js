@@ -10,5 +10,15 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  server: {
+    proxy: {
+    '/down': {
+      target: 'https://wkla.no-ip.biz/',
+      changeOrigin: true,
+      secure: false
+    },
+    cors:false
+    },
   }
 })

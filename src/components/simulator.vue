@@ -34,6 +34,7 @@ export default {
     props: {
         bin: Array,
     },
+    emits: ["updateAddr"],
     data() {
         return {
             din1: false,
@@ -75,18 +76,18 @@ export default {
         start() {
             this.reset();
             this.src = this.bin;
-            console.log("src: ", this.bin, " ", this.src)
             this.next();
         },
         next() {
             this.addr += 1;
+            this.$emit('updateAddr', this.addr)
             if (this.src.length > this.addr) {
-                console.log("next step: ", this.addr)
                 const element = this.src[this.addr];
-                console.log(element);
                 this.cmd = (element & 0xF0) >> 4;
                 this.data = element & 0x0F;
                 this.executeCommand(this.cmd, this.data);
+            } else {
+                this.reset();
             }
         },
         reset() {
@@ -102,6 +103,7 @@ export default {
             this.stack = [];
             this.dly = 0;
             this.callstack = [];
+            this.$emit('updateAddr', this.addr)
         },
         executeCommand(cmd, data) {
             switch (cmd) {
@@ -454,7 +456,6 @@ export default {
             this.dout4 = this.din4;
         },
         donothing(event) {
-            console.log("event");
             if (event) {
                 event.stopPropagation();
             }

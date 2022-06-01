@@ -11,16 +11,14 @@ import Simulator from './components/simulator.vue';
 <template>
   <header>
   </header>
-
   <main>
     <Welcome></Welcome>
-    
     <div class="grid">
       <div class="col-4">
-        <Assembler @updatebin="doBin($event)"></Assembler>
+        <Assembler @updatebin="doBin($event)" :linenumber="addr"></Assembler>
       </div>
       <div class="col-8">
-        <Simulator :bin="bin"></Simulator>
+        <Simulator :bin="bin" @update-addr="doAddr($event)"></Simulator>
       </div>
     </div>
   </main>
@@ -32,12 +30,16 @@ import Simulator from './components/simulator.vue';
     data() {
       return {
         displayBasic: false,
+        addr: 0, 
         bin: []
       }
     },
     methods: {
       doBin(bin) {
         this.bin = bin;
+      },
+      doAddr(addr) {
+        this.addr = addr;
       }
     }
 }

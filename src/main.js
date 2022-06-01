@@ -1,4 +1,4 @@
-import {createApp} from 'vue';
+import { createApp } from 'vue';
 import App from './App.vue';
 
 import "primevue/resources/themes/vela-blue/theme.css";
@@ -25,6 +25,7 @@ import InputNumber from 'primevue/inputnumber';
 import Listbox from 'primevue/listbox';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
+import Dropdown from 'primevue/dropdown';
 
 const app = createApp(App);
 
@@ -49,5 +50,6 @@ app.component('InputNumber', InputNumber);
 app.component('Listbox', Listbox);
 app.component('TabView', TabView);
 app.component('TabPanel', TabPanel);
+app.component('Dropdown', Dropdown);
 
 app.mount('#app')
