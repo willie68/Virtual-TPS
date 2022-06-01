@@ -9,7 +9,6 @@
             <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'to simulator'"
                 @click="toSimu()"></Button>
         </template>
-
     </Toolbar>
     <TabView v-model:activeIndex="tabIndex" >
         <TabPanel header="TPS File">
@@ -96,6 +95,7 @@ export default {
                     that.source = txt;
                 })
                 .catch((err) => console.log(err.message));
+            this.tabIndex = 0;
         },
         goto(refName) {
             //var element = this.$refs[refName];
