@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="grid">
-            <div class="col">
+            <div class="col" style="margin: 0 auto;">
                 <label for="ADC1">ADC 1</label><br />
                 <Knob id="ADC1" name="ADC1" v-model="adc1i" :min="0" :max="100" valueTemplate="{value}%" :size="70" />
             </div>

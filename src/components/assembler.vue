@@ -15,7 +15,7 @@
             <Textarea style="white-space: pre;  overflow: auto;" v-model="source" rows="20" cols="36"></Textarea>
         </TabPanel>
         <TabPanel header="Bin File">
-            <ScrollPanel ref="scroll" style="width: 100%; height: 540px">
+            <ScrollPanel ref="scroll" style="width: 100%; height: 540px; background-color: black;">
                 <div width="100%" v-for="(item, index) in lines">
                     <p :ref="'ad_' + index" v-if="index == this.linenumber" style="background-color: red;">{{ item }}
                     </p>
@@ -114,5 +114,8 @@ export default {
 <style>
 .toolbar-label {
     color: white;
+}
+.p-dropdown {
+    width: 14rem;
 }
 </style>
