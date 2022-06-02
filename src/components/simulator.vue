@@ -79,7 +79,7 @@ export default {
             dly: 0,
             started: false,
             selectedHardware: "Holtek",
-            hardwares: ['Holtek', 'ArduinoTPS', 'TinyTPS', 'ATMega8', 'Microbit', 'RP2040'],
+            hardwares: ['Holtek', 'ArduinoTPS', 'TinyTPS', 'ATMega8', 'Microbit', 'RP2040', 'ESP32'],
         };
     },
     methods: {

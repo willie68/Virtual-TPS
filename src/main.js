@@ -27,6 +27,7 @@ import Listbox from 'primevue/listbox';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Dropdown from 'primevue/dropdown';
+import OverlayPanel from 'primevue/overlaypanel';
 
 const app = createApp(App);
 
@@ -53,5 +54,6 @@ app.component('TabView', TabView);
 app.component('TabPanel', TabPanel);
 app.component('Dropdown', Dropdown);
 app.component('InputText', InputText);
+app.component('OverlayPanel', OverlayPanel);
 
 app.mount('#app')

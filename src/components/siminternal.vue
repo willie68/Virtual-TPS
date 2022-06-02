@@ -48,18 +48,18 @@
         </div>
         <div class="grid">
             <div class="col">
-                <label v-if="['ArduinoTPS'].includes(this.selectedHardware)" for="rege">E</label>
+                <label v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)" for="rege">E</label>
             </div>
             <div class="col">
-                <InputText v-if="['ArduinoTPS'].includes(this.selectedHardware)" id="rege" v-model="regei" size="4" mode="decimal"
+                <InputText v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)" id="rege" v-model="regei" size="4" mode="decimal"
                     v-tooltip="'Register E'" :readonly="true">
                 </InputText>
             </div>
             <div class="col">
-                <label v-if="['ArduinoTPS'].includes(this.selectedHardware)" for="regf">F</label>
+                <label v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)" for="regf">F</label>
             </div>
             <div class="col">
-                <InputText v-if="['ArduinoTPS'].includes(this.selectedHardware)" id="regf" v-model="regfi" size="4" mode="decimal"
+                <InputText v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)" id="regf" v-model="regfi" size="4" mode="decimal"
                     v-tooltip="'Register F'" :readonly="true">
                 </InputText>
             </div>
@@ -94,7 +94,7 @@
                 </InputText>
             </div>
         </div>
-        <div v-if="['ArduinoTPS'].includes(this.selectedHardware)">
+        <div v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)">
             <label for="stack">Stack</label>
             <Listbox id="stack" :options="stack" :readonly="true" emptyMessage="no stack"></Listbox>
         </div>
@@ -116,7 +116,8 @@ export default {
         stack: Array,
         cmd: Number,
         data: Number,
-        dly: Number
+        dly: Number,
+        selectedHardware: String,
     },
     methods: {
         toHex(value, digits) {
