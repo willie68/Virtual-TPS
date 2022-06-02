@@ -28,23 +28,23 @@
                 <Knob id="PWM1" name="PWM1" v-model="pwm1" :min="0" :max="100" readonly=true valueTemplate="{value}%"
                     :size="70" />
             </div>
-            <div class="col">
+            <div v-if="['ArduinoTPS'].includes(this.selectedHardware)" class="col">
                 <label for="PWM2">PWM 2</label><br />
                 <Knob id="PWM2" name="PWM2" v-model="pwm2" :min="0" :max="100" readonly=true valueTemplate="{value}%"
                     :size="70" />
             </div>
-            <div class="col">
+            <div v-if="['ArduinoTPS'].includes(this.selectedHardware)" class="col">
                 <label for="SRV1">Servo 1</label><br />
                 <Knob id="SRV1" name="SRV1" v-model="srv1" :min="0" :max="180" readonly=true valueTemplate="{value}°"
                     :size="70" />
             </div>
-            <div class="col">
+            <div v-if="['ArduinoTPS'].includes(this.selectedHardware)" class="col">
                 <label for="SRV2">Servo 2</label><br />
                 <Knob id="SRV2" name="SRV2" v-model="srv2" :min="0" :max="180" readonly=true valueTemplate="{value}°"
                     :size="70" />
             </div>
         </div>
-        <div class="grid">
+        <div v-if="['ArduinoTPS'].includes(this.selectedHardware)" class="grid">
             <div class="col">
                 <label for="tone">Tone</label><br />
                 <InputNumber id="tone" v-model="tone" size="4" mode="decimal" v-tooltip="'tone'" :readonly="true">
@@ -66,6 +66,7 @@ export default {
         srv1: Number,
         srv2: Number,
         tone: Number,
+        selectedHardware: String,
     }
 }
 </script>

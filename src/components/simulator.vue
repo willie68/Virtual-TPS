@@ -17,17 +17,17 @@
         <div class="col">
             <Siminputs v-model:din1="din1" v-model:din2="din2" v-model:din3="din3" v-model:din4="din4"
                 v-model:adc1="adc1" v-model:adc2="adc2" v-model:rc1="rc1" v-model:rc2="rc2" v-model:prg="prg"
-                v-model:sel="sel"></Siminputs>
+                v-model:sel="sel" :selectedHardware="selectedHardware"></Siminputs>
         </div>
         <div class="col">
             <Simoutputs :dout1="dout1" :dout2="dout2" :dout3="dout3" :dout4="dout4" :pwm1="pwm1" :pwm2="pwm2"
-                :srv1="srv1" :srv2="srv2" :tone="tone"></Simoutputs>
+                :srv1="srv1" :srv2="srv2" :tone="tone" :selectedHardware="selectedHardware"></Simoutputs>
         </div>
     </div>
     <div class="grid">
         <div class="col">
             <Siminternal :rega="rega" :regb="regb" :regc="regc" :regd="regd" :rege="rege" :regf="regf" :addr="addr"
-                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly"></Siminternal>
+                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly" :selectedHardware="selectedHardware"></Siminternal>
         </div>
     </div>
 </template>

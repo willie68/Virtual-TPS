@@ -48,17 +48,19 @@
         </div>
         <div class="grid">
             <div class="col">
-                <label for="rege">E</label>
+                <label v-if="['ArduinoTPS'].includes(this.selectedHardware)" for="rege">E</label>
             </div>
             <div class="col">
-                <InputText id="rege" v-model="regei" size="4" mode="decimal" v-tooltip="'Register E'" :readonly="true">
+                <InputText v-if="['ArduinoTPS'].includes(this.selectedHardware)" id="rege" v-model="regei" size="4" mode="decimal"
+                    v-tooltip="'Register E'" :readonly="true">
                 </InputText>
             </div>
             <div class="col">
-                <label for="regf">F</label>
+                <label v-if="['ArduinoTPS'].includes(this.selectedHardware)" for="regf">F</label>
             </div>
             <div class="col">
-                <InputText id="regf" v-model="regfi" size="4" mode="decimal" v-tooltip="'Register F'" :readonly="true">
+                <InputText v-if="['ArduinoTPS'].includes(this.selectedHardware)" id="regf" v-model="regfi" size="4" mode="decimal"
+                    v-tooltip="'Register F'" :readonly="true">
                 </InputText>
             </div>
             <div class="col">
@@ -92,8 +94,10 @@
                 </InputText>
             </div>
         </div>
-        <label for="stack">Stack</label>
-        <Listbox id="stack" :options="stack" :readonly="true" emptyMessage="no stack"></Listbox>
+        <div v-if="['ArduinoTPS'].includes(this.selectedHardware)">
+            <label for="stack">Stack</label>
+            <Listbox id="stack" :options="stack" :readonly="true" emptyMessage="no stack"></Listbox>
+        </div>
     </Panel>
 </template>
 
