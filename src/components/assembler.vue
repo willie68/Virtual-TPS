@@ -6,7 +6,7 @@
         <template #end>
             <Dropdown v-model="selectedExample" :options="examples" optionLabel="name" optionGroupLabel="label"
                 optionGroupChildren="items" placeholder="select an example" @change="loadExample"></Dropdown>
-            <i class="pi pi-bars p-toolbar-separator mr-1" />
+            <i class="pi p-toolbar-separator mr-1" />
             <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'to simulator'"
                 @click="toSimu()"></Button>
         </template>
@@ -72,7 +72,7 @@ export default {
                     let cmd = Number("0x" + cmdsParts[1]);
                     let data = Number("0x" + cmdsParts[2]);
                     this.bin[addr] = (cmd * 16 + data) & 0xff;
-                    this.com[addr] = cmdsParts[3];
+                    this.com[addr] = cmdsParts[3] ? cmdsParts[3] : "";
                 }
             });
             let addr = 0;

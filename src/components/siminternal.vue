@@ -94,9 +94,15 @@
                 </InputText>
             </div>
         </div>
-        <div v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)">
+        <div class="grid">
+        <div class="col" v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)">
             <label for="stack">Stack</label>
-            <Listbox id="stack" :options="stack" :readonly="true" emptyMessage="no stack"></Listbox>
+            <Listbox id="stack" :options="stacki" :readonly="true" emptyMessage="no stack"></Listbox>
+        </div>
+        <div class="col" v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)">
+            <label for="callstack">Callstack</label>
+            <Listbox id="callstack" :options="callstacki" :readonly="true" emptyMessage="no callstack"></Listbox>
+        </div>
         </div>
     </Panel>
 </template>
@@ -118,6 +124,7 @@ export default {
         data: Number,
         dly: Number,
         selectedHardware: String,
+        callstack: Array,
     },
     methods: {
         toHex(value, digits) {
@@ -181,6 +188,24 @@ export default {
         datai: {
             get() {
                 return this.toHex(this.data, 1);
+            }
+        },
+        stacki: {
+            get() {
+                let stacki = []
+                this.stack.forEach(element => {
+                    stacki.push(this.toHex(element, 2))
+                });
+                return stacki.reverse();
+            }
+        },
+        callstacki: {
+            get() {
+                let callstacki = []
+                this.callstack.forEach(element => {
+                    callstacki.push(this.toHex(element, 2))
+                });
+                return callstacki.reverse();
             }
         },
     }

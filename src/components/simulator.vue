@@ -5,7 +5,7 @@
         </template>
         <template #end>
             <Dropdown v-model="selectedHardware" :options="hardwares"></Dropdown>
-            <i class="pi pi-bars p-toolbar-separator mr-1" />
+            <i class="pi p-toolbar-separator mr-1" />
             <Button class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'"></Button>
             <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'"></Button>
             <Button class="p-button-rounded" icon="pi pi-step-forward-alt" v-tooltip.bottom="'next step'"
@@ -27,7 +27,7 @@
     <div class="grid">
         <div class="col">
             <Siminternal :rega="rega" :regb="regb" :regc="regc" :regd="regd" :rege="rege" :regf="regf" :addr="addr"
-                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly" :selectedHardware="selectedHardware"></Siminternal>
+                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly" :selectedHardware="selectedHardware" :callstack="callstack"></Siminternal>
         </div>
     </div>
 </template>
@@ -78,7 +78,7 @@ export default {
             data: 0,
             dly: 0,
             started: false,
-            selectedHardware: "Holtek",
+            selectedHardware: "ArduinoTPS",
             hardwares: ['Holtek', 'ArduinoTPS', 'TinyTPS', 'ATMega8', 'Microbit', 'RP2040', 'ESP32'],
         };
     },
@@ -172,7 +172,7 @@ export default {
                     break;
                 case 13:
                     this.callstack.push(this.addr);
-                    this.addr = (16 * this.page) + data;
+                    this.addr = (16 * this.page) + data - 1;
                     break;
                 case 14:
                     if (data == 0) {

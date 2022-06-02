@@ -2,7 +2,7 @@
     <Panel header="Outputs">
         <div class="grid">
             <div class="col">
-                <label for="Dout4">Din 4</label><br />
+                <label for="Dout4">Dout 4</label><br />
                 <ToggleButton id="Dout4" name="Dout4" v-model="dout4" readonly="true" disabled="disabled" onLabel=""
                     offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
             </div>
