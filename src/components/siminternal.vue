@@ -112,8 +112,7 @@ export default {
         stack: Array,
         cmd: Number,
         data: Number,
-        dly: Number,
-        tone: Number
+        dly: Number
     },
     methods: {
         toHex(value, digits) {

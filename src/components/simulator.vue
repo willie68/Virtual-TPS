@@ -4,11 +4,13 @@
             <div class="toolbar-label">TPS Simulator</div>
         </template>
         <template #end>
-            <Button class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'" @click="start()"></Button>
+            <Dropdown v-model="selectedHardware" :options="hardwares"></Dropdown>
+            <i class="pi pi-bars p-toolbar-separator mr-1" />
+            <Button class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'"></Button>
+            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'"></Button>
             <Button class="p-button-rounded" icon="pi pi-step-forward-alt" v-tooltip.bottom="'next step'"
                 @click="next()"></Button>
-            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'"></Button>
-            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'"></Button>
+            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'" @click="reset()"></Button>
         </template>
     </Toolbar>
     <div class="grid">
@@ -38,7 +40,7 @@ export default {
     props: {
         bin: Array,
     },
-    emits: ["updateAddr"],
+    emits: ["updateAddr", "updateHardware"],
     data() {
         return {
             din1: false,
@@ -59,13 +61,14 @@ export default {
             srv2: 0,
             sel: false,
             prg: false,
+            tone: 0,
             rega: 0,
             regb: 0,
             regc: 0,
             regd: 0,
             rege: 0,
             regf: 0,
-            addr: 0,
+            addr: -1,
             page: 0,
             raddr: 0,
             stack: [],
@@ -74,22 +77,26 @@ export default {
             cmd: 0,
             data: 0,
             dly: 0,
+            started: false,
+            selectedHardware: "Holtek",
+            hardwares: ['Holtek', 'ArduinoTPS', 'TinyTPS', 'ATMega8', 'Microbit', 'RP2040'],
         };
     },
     methods: {
-        start() {
-            this.reset();
-            this.src = this.bin;
-            this.next();
-        },
         next() {
-            this.addr += 1;
-            this.$emit('updateAddr', this.addr)
+            if (!this.started) {
+                console.log("start")
+                this.reset();
+                this.src = this.bin;
+                this.started = true;
+            }
             if (this.src.length > this.addr) {
                 const element = this.src[this.addr];
                 this.cmd = (element & 0xF0) >> 4;
                 this.data = element & 0x0F;
                 this.executeCommand(this.cmd, this.data);
+                this.addr += 1;
+                this.$emit('updateAddr', this.addr)
             } else {
                 this.reset();
             }
@@ -106,15 +113,18 @@ export default {
             this.pwm2 = 0;
             this.srv1 = 0;
             this.srv2 = 0;
-            this.addr = -1;
+            this.tone = 0;
+            this.addr = 0;
             this.page = 0;
             this.raddr = 0;
             this.stack = [];
             this.dly = 0;
             this.callstack = [];
+            this.started = false;
             this.$emit('updateAddr', this.addr)
         },
         executeCommand(cmd, data) {
+            this.dly = 0;
             switch (cmd) {
                 case 1:
                     this.doPort(data);
@@ -442,36 +452,28 @@ export default {
                     this.srv2 = Math.round((this.rega / 256.0) * 180.0);
                     break;
                 case 8:
-                    // tone is not implemented
                     this.tone = this.rega;
                     break;
                 default:
                     break;
             }
             this.rega = this.rega & 0xFF;
-        },
-        onadcchange() {
-            this.pwm1 = this.adc1;
-            this.pwm2 = this.adc2;
-        },
-        onrcchange() {
-            this.srv1 = this.rc1;
-            this.srv2 = this.rc2;
-        },
-        oninchange() {
-            this.dout1 = this.din1;
-            this.dout2 = this.din2;
-            this.dout3 = this.din3;
-            this.dout4 = this.din4;
-        },
-        donothing(event) {
-            if (event) {
-                event.stopPropagation();
-            }
         }
     },
     watch: {
+        bin(bin) {
+            this.reset();
+        },
+        selectedHardware(selectedHardware) {
+            this.$emit('updateHardware', selectedHardware);
+        }
     },
     components: { Siminputs, Simoutputs, Siminternal }
 }
 </script>
+
+<style scoped>
+.p-combobox {
+    width: 10rem;
+}
+</style>

@@ -6,20 +6,21 @@
         <template #end>
             <Dropdown v-model="selectedExample" :options="examples" optionLabel="name" optionGroupLabel="label"
                 optionGroupChildren="items" placeholder="select an example" @change="loadExample"></Dropdown>
+            <i class="pi pi-bars p-toolbar-separator mr-1" />
             <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'to simulator'"
                 @click="toSimu()"></Button>
         </template>
     </Toolbar>
-    <TabView v-model:activeIndex="tabIndex" >
+    <TabView v-model:activeIndex="tabIndex">
         <TabPanel header="TPS File">
             <Textarea style="white-space: pre;  overflow: auto;" v-model="source" rows="20" cols="36"></Textarea>
         </TabPanel>
         <TabPanel header="Bin File">
             <ScrollPanel ref="scroll" style="width: 100%; height: 540px">
-                <div width="100%" v-for="(item, index) in lines">
-                    <p :ref="'ad_' + index" v-if="index == this.linenumber" class="line-highlight">{{ item }}
+                <div :ref="'ad_' + index" width="100%" v-for="(item, index) in lines">
+                    <p v-if="index == this.linenumber" class="line-highlight">{{ item }}
                     </p>
-                    <p :ref="'ad_' + index" v-else>{{ item }}</p>
+                    <p v-else>{{ item }}</p>
                 </div>
             </ScrollPanel>
         </TabPanel>
@@ -77,7 +78,7 @@ export default {
             let addr = 0;
             this.lines = [];
             this.bin.forEach(element => {
-                let line = String(addr).padStart(4,'0') + ": " + element.toString(16).padStart(2, '0') + "  " + this.com[addr];
+                let line = '0x' + addr.toString(16).padStart(4, '0') + ": " + element.toString(16).padStart(2, '0') + "  " + this.com[addr];
                 this.lines.push(line)
                 addr++;
             });
@@ -93,14 +94,15 @@ export default {
                 .then((res) => res.text())
                 .then(txt => {
                     that.source = txt;
+                    this.toSimu();
                 })
                 .catch((err) => console.log(err.message));
             this.tabIndex = 0;
         },
         goto(refName) {
-            //var element = this.$refs[refName];
-            //var top = element.offsetTop;
-            //window.scrollTo(0, top);
+            console.log(this.$refs)
+            var line = this.$refs[refName];
+            line.scrollIntoView;
         }
     },
     watch: {
@@ -115,10 +117,12 @@ export default {
 .toolbar-label {
     color: white;
 }
+
 .line-highlight {
     background-color: whitesmoke;
     color: black;
 }
+
 .p-dropdown {
     width: 12rem;
 }

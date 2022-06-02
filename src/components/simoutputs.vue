@@ -46,7 +46,7 @@
         </div>
         <div class="grid">
             <div class="col">
-                <label for="tone">tone</label><br />
+                <label for="tone">Tone</label><br />
                 <InputNumber id="tone" v-model="tone" size="4" mode="decimal" v-tooltip="'tone'" :readonly="true">
                 </InputNumber>
             </div>
