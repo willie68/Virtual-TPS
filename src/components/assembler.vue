@@ -17,7 +17,7 @@
         <TabPanel header="Bin File">
             <ScrollPanel ref="scroll" style="width: 100%; height: 540px">
                 <div width="100%" v-for="(item, index) in lines">
-                    <p :ref="'ad_' + index" v-if="index == this.linenumber" style="background-color: red;">{{ item }}
+                    <p :ref="'ad_' + index" v-if="index == this.linenumber" class="line-highlight">{{ item }}
                     </p>
                     <p :ref="'ad_' + index" v-else>{{ item }}</p>
                 </div>
@@ -77,7 +77,7 @@ export default {
             let addr = 0;
             this.lines = [];
             this.bin.forEach(element => {
-                let line = String(addr).padStart(4,'0') + ": " + element.toString(16) + "  " + this.com[addr];
+                let line = String(addr).padStart(4,'0') + ": " + element.toString(16).padStart(2, '0') + "  " + this.com[addr];
                 this.lines.push(line)
                 addr++;
             });
@@ -114,5 +114,12 @@ export default {
 <style>
 .toolbar-label {
     color: white;
+}
+.line-highlight {
+    background-color: whitesmoke;
+    color: black;
+}
+.p-dropdown {
+    width: 12rem;
 }
 </style>

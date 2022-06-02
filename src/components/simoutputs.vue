@@ -2,13 +2,8 @@
     <Panel header="Outputs">
         <div class="grid">
             <div class="col">
-                <label for="Dout1">Dout 1</label><br />
-                <ToggleButton id="Dout1" name="Dout1" v-model="dout1" readonly="true" disabled="disabled" onLabel=""
-                    offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
-            </div>
-            <div class="col">
-                <label for="Dout2">Dout 2</label><br />
-                <ToggleButton id="Dout2" name="Dout2" v-model="dout2" readonly="true" disabled="disabled" onLabel=""
+                <label for="Dout4">Din 4</label><br />
+                <ToggleButton id="Dout4" name="Dout4" v-model="dout4" readonly="true" disabled="disabled" onLabel=""
                     offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
             </div>
             <div class="col">
@@ -17,8 +12,13 @@
                     offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
             </div>
             <div class="col">
-                <label for="Dout4">Din 4</label><br />
-                <ToggleButton id="Dout4" name="Dout4" v-model="dout4" readonly="true" disabled="disabled" onLabel=""
+                <label for="Dout2">Dout 2</label><br />
+                <ToggleButton id="Dout2" name="Dout2" v-model="dout2" readonly="true" disabled="disabled" onLabel=""
+                    offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
+            </div>
+            <div class="col">
+                <label for="Dout1">Dout 1</label><br />
+                <ToggleButton id="Dout1" name="Dout1" v-model="dout1" readonly="true" disabled="disabled" onLabel=""
                     offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
             </div>
         </div>
@@ -44,6 +44,13 @@
                     :size="70" />
             </div>
         </div>
+        <div class="grid">
+            <div class="col">
+                <label for="tone">tone</label><br />
+                <InputNumber id="tone" v-model="tone" size="4" mode="decimal" v-tooltip="'tone'" :readonly="true">
+                </InputNumber>
+            </div>
+        </div>
     </Panel>
 </template>
 
@@ -58,6 +65,7 @@ export default {
         pwm2: Number,
         srv1: Number,
         srv2: Number,
+        tone: Number,
     }
 }
 </script>

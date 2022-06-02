@@ -2,20 +2,20 @@
     <Panel header="Inputs">
         <div class="grid">
             <div class="col">
-                <label for="Din1">Din 1</label><br />
-                <InputSwitch id="Din1" name="Din 1" v-model="din1i" />
-            </div>
-            <div class="col">
-                <label for="Din2">Din 2</label><br />
-                <InputSwitch id="Din2" name="Din 2" v-model="din2i" />
+                <label for="Din4">Din 4</label><br />
+                <InputSwitch id="Din4" name="Din 4" v-model="din4i" />
             </div>
             <div class="col">
                 <label for="Din3">Din 3</label><br />
                 <InputSwitch id="Din3" name="Din 3" v-model="din3i" />
             </div>
             <div class="col">
-                <label for="Din4">Din 4</label><br />
-                <InputSwitch id="Din4" name="Din 4" v-model="din4i" />
+                <label for="Din2">Din 2</label><br />
+                <InputSwitch id="Din2" name="Din 2" v-model="din2i" />
+            </div>
+            <div class="col">
+                <label for="Din1">Din 1</label><br />
+                <InputSwitch id="Din1" name="Din 1" v-model="din1i" />
             </div>
         </div>
         <div class="grid">
