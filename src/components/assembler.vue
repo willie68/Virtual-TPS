@@ -15,6 +15,9 @@
         <TabPanel header="TPS File">
             <Textarea style="white-space: pre;  overflow: auto;" v-model="source" rows="20" cols="36"></Textarea>
         </TabPanel>
+        <TabPanel header="ASM File">
+            <Textarea style="white-space: pre;  overflow: auto;" v-model="asm" rows="20" cols="36"></Textarea>
+        </TabPanel>
         <TabPanel header="Bin File">
             <ScrollPanel ref="scroll" style="width: 100%; height: 540px">
                 <div :ref="'ad_' + index" width="100%" v-for="(item, index) in lines">
@@ -42,7 +45,8 @@ export default {
             com: [],
             selectedExample: {},
             examples: [],
-            tabIndex: 0
+            tabIndex: 0,
+            asm: "",
         }
     },
     mounted() {
@@ -82,7 +86,7 @@ export default {
                 this.lines.push(line)
                 addr++;
             });
-            this.tabIndex = 1;
+            this.tabIndex = 2;
             this.$emit('updatebin', this.bin)
         },
         loadExample() {

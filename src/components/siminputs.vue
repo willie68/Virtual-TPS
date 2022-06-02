@@ -39,12 +39,12 @@
         <div class="grid">
             <div class="col">
                 <label for="SEL">SEL</label><br />
-                <ToggleButton id="SEL" name="SEL" v-model="seli" onLabel="" offLabel="" onIcon="pi pi-check"
-                    offIcon="pi pi-times" />
+                <ToggleButton id="SEL" name="SEL" v-model="seli" onLabel="pressed" offLabel="not pressed" onIcon="pi pi-check"
+                    offIcon="pi pi-times"/>
             </div>
             <div class="col">
                 <label for="PRG">PRG</label><br />
-                <ToggleButton id="PRG" name="PRG" v-model="prgi" onLabel="" offLabel="" onIcon="pi pi-check"
+                <ToggleButton id="PRG" name="PRG" v-model="prgi" onLabel="pressed" offLabel="not pressed" onIcon="pi pi-check"
                     offIcon="pi pi-times" />
             </div>
         </div>
