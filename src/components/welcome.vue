@@ -360,6 +360,7 @@
 
 <script>
 export default {
+    emits: ['help'],
     data() {
         return {
             isCollapsed: false
@@ -373,7 +374,8 @@ export default {
             this.isCollapsed = true;
         },
         toggle(event) {
-            this.$refs.op.toggle(event);
+            //this.$refs.op.toggle(event);
+            this.$emit("help");
         }
     }
 }

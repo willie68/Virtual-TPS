@@ -82,7 +82,7 @@ export default {
             let addr = 0;
             this.lines = [];
             this.bin.forEach(element => {
-                let line = '0x' + addr.toString(16).padStart(4, '0') + ": " + element.toString(16).padStart(2, '0') + "  " + this.com[addr];
+                let line = '0x' + addr.toString(16).padStart(4, '0') + ": 0x" + element.toString(16).padStart(2, '0') + "  " + this.com[addr];
                 this.lines.push(line)
                 addr++;
             });
