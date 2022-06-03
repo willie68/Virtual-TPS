@@ -6,6 +6,7 @@
                 <span class="pi pi-question"></span>
             </button>
         </template>
+        <a href="http://rcarduino.de/doku.php?id=arduino:arduinosps" target="_blank">TPS/myco</a><br />
         Hallo, willkommen bei Virtual-TPS, dem TPS-Editor und Simulator für Ihren Browser.<br />
         Hier können Sie ihre TPS Programme in TPS Assembler schreiben und auch gleich mit dem Emulator testen.
     </Panel>
@@ -40,7 +41,7 @@
                 <td>=A</td>
                 <td>A=</td>
                 <td>Calc</td>
-                <td>Page<br/>[PAGE]</td>
+                <td>Page<br />[PAGE]</td>
                 <td>Jump Absolute (# + 16*Page) [JMP]</td>
                 <td>C* C>0: C=C-1; Jump # + (16*page) [LOOPC]</td>
                 <td>D* D>0: D=D-1; Jump # + (16*page) [LOOPD]</td>
@@ -354,7 +355,7 @@
                 <td>PrgEnd [PEND]</td>
             </tr>
         </table>
-</OverlayPanel>
+    </OverlayPanel>
 </template>
 
 <script>
@@ -379,6 +380,30 @@ export default {
 </script>
 
 <style>
+a:link {
+    color: lightblue;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:visited {
+    color: lightblue;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:hover {
+    color: white;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+a:active {
+    color: yellow;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
 .welcome-panel-header-custom .p-panel-header {
     font-size: 20px;
 }

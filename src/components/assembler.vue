@@ -104,7 +104,7 @@ export default {
             this.tabIndex = 0;
         },
         goto(refName) {
-            console.log(this.$refs)
+            //console.log(this.$refs)
             var line = this.$refs[refName];
             line.scrollIntoView;
         }

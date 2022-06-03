@@ -6,11 +6,12 @@
         <template #end>
             <Dropdown v-model="selectedHardware" :options="hardwares"></Dropdown>
             <i class="pi p-toolbar-separator mr-1" />
-            <Button class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'"></Button>
-            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'"></Button>
+            <Button ref="btnstart" class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'"
+                :disabled="running" @click="start()"></Button>
+            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'" :disabled="!running" @click="stop()"></Button>
             <Button class="p-button-rounded" icon="pi pi-step-forward-alt" v-tooltip.bottom="'next step'"
-                @click="next()"></Button>
-            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'" @click="reset()"></Button>
+                :disabled="running" @click="next()"></Button>
+            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'" :disabled="running" @click="reset()"></Button>
         </template>
     </Toolbar>
     <div class="grid">
@@ -27,7 +28,8 @@
     <div class="grid">
         <div class="col">
             <Siminternal :rega="rega" :regb="regb" :regc="regc" :regd="regd" :rege="rege" :regf="regf" :addr="addr"
-                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly" :selectedHardware="selectedHardware" :callstack="callstack"></Siminternal>
+                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly"
+                :selectedHardware="selectedHardware" :callstack="callstack"></Siminternal>
         </div>
     </div>
 </template>
@@ -36,6 +38,7 @@
 import Siminputs from './siminputs.vue';
 import Simoutputs from './simoutputs.vue';
 import Siminternal from './siminternal.vue';
+import { setTransitionHooks } from 'vue';
 export default {
     props: {
         bin: Array,
@@ -78,11 +81,24 @@ export default {
             data: 0,
             dly: 0,
             started: false,
+            running: false,
             selectedHardware: "ArduinoTPS",
             hardwares: ['Holtek', 'ArduinoTPS', 'TinyTPS', 'ATMega8', 'Microbit', 'RP2040', 'ESP32'],
+            myinterval: 0,
         };
     },
     methods: {
+        start() {
+            let that = this;
+            this.myinterval = setInterval(function () {
+                that.next();
+            }, 100);
+            this.running = true;
+        },
+        stop() {
+            clearInterval(this.myinterval);
+            this.running = false;
+        },
         next() {
             if (!this.started) {
                 console.log("start")
@@ -203,6 +219,11 @@ export default {
             let delays = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1, 2, 5, 10, 20, 30, 60];
             let myms = delays[data];
             this.dly = myms;
+            var start = Date.now(),
+                now = start;
+            while (now - start < myms) {
+                now = Date.now();
+            }
         },
         doIsA(data) {
             switch (data) {

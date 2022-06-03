@@ -1,7 +1,4 @@
 <script setup>
-//import HelloWorld from './components/HelloWorld.vue'
-import Dialog from 'primevue/dialog/sfc';
-import Button from 'primevue/button/sfc';
 import Welcome from './components/welcome.vue';
 import Assembler from './components/assembler.vue';
 import Simulator from './components/simulator.vue';
