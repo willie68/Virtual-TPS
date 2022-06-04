@@ -11,6 +11,9 @@
 		{
 			"name": "recosadmin",
 			"path": "..\\ReCoS-Remote-Command-Service\\webclient\\recosadmin"
+		},
+		{
+			"path": "..\\Arduino_TPS\\tps_asm"
 		}
 	],
 	"settings": {}
