@@ -257,16 +257,16 @@ export default {
                     this.dout4 = (this.rega & 1) > 0;
                     break;
                 case 9:
-                    this.pwm1 = Math.round(this.rega / 16.0 * 100.0);
+                    this.pwm1 = Math.trunc(this.rega / 16.0 * 100.0);
                     break;
                 case 10:
-                    this.pwm2 = Math.round(this.rega / 16.0 * 100.0);
+                    this.pwm2 = Math.trunc(this.rega / 16.0 * 100.0);
                     break;
                 case 11:
-                    this.srv1 = Math.round(this.rega / 16.0 * 180.0);
+                    this.srv1 = Math.trunc(this.rega / 16.0 * 180.0);
                     break;
                 case 12:
-                    this.srv2 = Math.round(this.rega / 16.0 * 180.0);
+                    this.srv2 = Math.trunc(this.rega / 16.0 * 180.0);
                     break;
                 case 13:
                     this.rege = this.rega;
@@ -310,16 +310,16 @@ export default {
                     this.rega = this.din4 | 0;
                     break;
                 case 9:
-                    this.rega = Math.round(this.adc1 / 100.0 * 16.0);
+                    this.rega = Math.trunc(this.adc1 / 100.0 * 16.0);
                     break;
                 case 10:
-                    this.rega = Math.round(this.adc2 / 100.0 * 16.0);
+                    this.rega = Math.trunc(this.adc2 / 100.0 * 16.0);
                     break;
                 case 11:
-                    this.rega = Math.round(this.rc1 / 180.0 * 16.0);
+                    this.rega = Math.trunc(this.rc1 / 180.0 * 16.0);
                     break;
                 case 12:
-                    this.rega = Math.round(this.rc2 / 180.0 * 16.0);
+                    this.rega = Math.trunc(this.rc2 / 180.0 * 16.0);
                     break;
                 case 13:
                     this.rega = this.rege;
@@ -449,28 +449,28 @@ export default {
         doByte(data) {
             switch (data) {
                 case 0:
-                    this.rega = Math.round((this.adc1 / 100.0) * 256);
+                    this.rega = Math.trunc((this.adc1 / 100.0) * 256);
                     break;
                 case 1:
-                    this.rega = Math.round((this.adc2 / 100.0) * 256);
+                    this.rega = Math.trunc((this.adc2 / 100.0) * 256);
                     break;
                 case 2:
-                    this.rega = Math.round((this.rc1 / 180.0) * 256);
+                    this.rega = Math.trunc((this.rc1 / 180.0) * 256);
                     break;
                 case 3:
-                    this.rega = Math.round((this.rc2 / 180.0) * 256);
+                    this.rega = Math.trunc((this.rc2 / 180.0) * 256);
                     break;
                 case 4:
-                    this.pwm1 = Math.round((this.rega / 256.0) * 100.0);
+                    this.pwm1 = Math.trunc((this.rega / 256.0) * 100.0);
                     break;
                 case 5:
-                    this.pwm2 = Math.round((this.rega / 256.0) * 100.0);
+                    this.pwm2 = Math.trunc((this.rega / 256.0) * 100.0);
                     break;
                 case 6:
-                    this.srv1 = Math.round((this.rega / 256.0) * 180.0);
+                    this.srv1 = Math.trunc((this.rega / 256.0) * 180.0);
                     break;
                 case 7:
-                    this.srv2 = Math.round((this.rega / 256.0) * 180.0);
+                    this.srv2 = Math.trunc((this.rega / 256.0) * 180.0);
                     break;
                 case 8:
                     this.tone = this.rega;

@@ -21,6 +21,10 @@
                 <ToggleButton id="Dout1" name="Dout1" v-model="dout1" readonly="true" disabled="disabled" onLabel=""
                     offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
             </div>
+            <div class="col">
+                <label for="Dout1">Dout</label><br />
+                {{ dout }}
+            </div>
         </div>
         <div class="grid">
             <div class="col">
@@ -67,6 +71,15 @@ export default {
         srv2: Number,
         tone: Number,
         selectedHardware: String,
+    },
+    computed: {
+        dout: {
+            get() {
+                let d = (this.dout1 | 0) + ((this.dout2 | 0) << 1) + ((this.dout3 | 0) << 2) + ((this.dout4 | 0) << 3);
+                return '0x' + d.toString(16)
+            }
+        },
+
     }
 }
 </script>
