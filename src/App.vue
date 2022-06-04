@@ -18,11 +18,13 @@ import Simulator from './components/simulator.vue';
         <Simulator :bin="bin" @update-addr="doAddr($event)"></Simulator>
       </div>
     </div>
-    <Sidebar class="p-sidebar-md" v-model:visible="sidebar" :baseZIndex="10000" position="right">
+    <Sidebar class="p-sidebar-md" v-model:visible="sidebar" :baseZIndex="10000" position="right" :dismissable="true" :showCloseIcon="false">
       <template #header>
-        <h2>Help Command Bin File Format</h2>
+        <h2>Help Command Bin File Format
+          <Button class="p-button-sm p-button-rounded p-button-outlined " icon="pi pi-times" @click="sidebar = false;"></Button>
+        </h2>
       </template>
-      0x####: 0x## "#"<br/>Adresse: Command "Kommentar"
+      0x####: 0x## "#"<br />Adresse: Command "Comment"
       <hr />
       <h3>Commands</h3>
       0x00: NOP: , no operation<br />
