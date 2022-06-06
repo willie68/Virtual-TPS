@@ -219,11 +219,13 @@ export default {
             let delays = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 30000, 60000];
             let myms = delays[data];
             this.dly = myms;
+            console.log('ms: ', myms)
             var start = Date.now(),
                 now = start;
-            while (now - start < myms) {
+            while ((now - start) < myms) {
                 now = Date.now();
             }
+            console.log(now)
         },
         doIsA(data) {
             switch (data) {
