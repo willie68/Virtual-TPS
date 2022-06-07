@@ -21,7 +21,7 @@ import Simulator from './components/simulator.vue';
     <Sidebar class="p-sidebar-md" v-model:visible="sidebar" :baseZIndex="10000" position="right" :dismissable="true" :showCloseIcon="false">
       <template #header>
         <h2>Help Command Bin File Format
-          <Button class="p-button-sm p-button-rounded p-button-outlined " icon="pi pi-times" @click="sidebar = false;"></Button>
+          <Button class="p-button-sm p-button-rounded" icon="pi pi-times" @click="sidebar = false;"></Button>
         </h2>
       </template>
       <a href="https://wk-music.de/ArduinoWiki/doku.php?id=arduino:arduinosps:commandtable" target="_blank">Commandtable</a><br />
@@ -160,7 +160,6 @@ export default {
 @import './assets/base.css';
 
 #app {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 1rem;
 
