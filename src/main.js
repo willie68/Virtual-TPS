@@ -22,10 +22,13 @@ import Knob from 'primevue/knob';
 import RadioButton from 'primevue/radiobutton';
 import ToggleButton from 'primevue/togglebutton';
 import InputNumber from 'primevue/inputnumber';
+import InputText from 'primevue/inputtext';
 import Listbox from 'primevue/listbox';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Dropdown from 'primevue/dropdown';
+import OverlayPanel from 'primevue/overlaypanel';
+import Sidebar from 'primevue/sidebar';
 
 const app = createApp(App);
 
@@ -51,5 +54,8 @@ app.component('Listbox', Listbox);
 app.component('TabView', TabView);
 app.component('TabPanel', TabPanel);
 app.component('Dropdown', Dropdown);
+app.component('InputText', InputText);
+app.component('OverlayPanel', OverlayPanel);
+app.component('Sidebar', Sidebar);
 
 app.mount('#app')

@@ -4,24 +4,32 @@
             <div class="toolbar-label">TPS Simulator</div>
         </template>
         <template #end>
-            <Button class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'" @click="start()"></Button>
-            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'"></Button>
+            <Dropdown v-model="selectedHardware" :options="hardwares"></Dropdown>
+            <i class="pi p-toolbar-separator mr-1" />
+            <Button ref="btnstart" class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'"
+                :disabled="running" @click="start()"></Button>
+            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'" :disabled="!running" @click="stop()"></Button>
             <Button class="p-button-rounded" icon="pi pi-step-forward-alt" v-tooltip.bottom="'next step'"
-                @click="next()"></Button>
-            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'" @click="reset()"></Button>
+                :disabled="running" @click="next()"></Button>
+            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'" :disabled="running" @click="reset()"></Button>
         </template>
     </Toolbar>
     <div class="grid">
         <div class="col">
             <Siminputs v-model:din1="din1" v-model:din2="din2" v-model:din3="din3" v-model:din4="din4"
                 v-model:adc1="adc1" v-model:adc2="adc2" v-model:rc1="rc1" v-model:rc2="rc2" v-model:prg="prg"
-                v-model:sel="sel"></Siminputs>
-            <Simoutputs :dout1="dout1" :dout2="dout2" :dout3="dout3" :dout4="dout4" :pwm1="pwm1" :pwm2="pwm2"
-                :srv1="srv1" :srv2="srv2"></Simoutputs>
+                v-model:sel="sel" :selectedHardware="selectedHardware"></Siminputs>
         </div>
         <div class="col">
+            <Simoutputs :dout1="dout1" :dout2="dout2" :dout3="dout3" :dout4="dout4" :pwm1="pwm1" :pwm2="pwm2"
+                :srv1="srv1" :srv2="srv2" :tone="tone" :selectedHardware="selectedHardware"></Simoutputs>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="col">
             <Siminternal :rega="rega" :regb="regb" :regc="regc" :regd="regd" :rege="rege" :regf="regf" :addr="addr"
-                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly" :tone="tone"></Siminternal>
+                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly"
+                :selectedHardware="selectedHardware" :callstack="callstack"></Siminternal>
         </div>
     </div>
 </template>
@@ -30,11 +38,12 @@
 import Siminputs from './siminputs.vue';
 import Simoutputs from './simoutputs.vue';
 import Siminternal from './siminternal.vue';
+import { setTransitionHooks } from 'vue';
 export default {
     props: {
         bin: Array,
     },
-    emits: ["updateAddr"],
+    emits: ["updateAddr", "updateHardware"],
     data() {
         return {
             din1: false,
@@ -55,13 +64,14 @@ export default {
             srv2: 0,
             sel: false,
             prg: false,
+            tone: 0,
             rega: 0,
             regb: 0,
             regc: 0,
             regd: 0,
             rege: 0,
             regf: 0,
-            addr: 0,
+            addr: -1,
             page: 0,
             raddr: 0,
             stack: [],
@@ -71,30 +81,39 @@ export default {
             data: 0,
             dly: 0,
             started: false,
+            running: false,
+            selectedHardware: "ArduinoTPS",
+            hardwares: ['Holtek', 'ArduinoTPS', 'TinyTPS', 'ATMega8', 'Microbit', 'RP2040', 'ESP32'],
+            myinterval: 0,
         };
     },
     methods: {
         start() {
-            if (!this.started) {
-                this.reset();
-                this.src = this.bin;
-                this.next();
-            }
+            let that = this;
+            this.myinterval = setInterval(function () {
+                that.next();
+            }, 100);
+            this.running = true;
+        },
+        stop() {
+            clearInterval(this.myinterval);
+            this.running = false;
         },
         next() {
             if (!this.started) {
+                console.log("start")
                 this.reset();
                 this.src = this.bin;
                 this.started = true;
             }
-            this.addr += 1;
-            this.$emit('updateAddr', this.addr)
             if (this.src.length > this.addr) {
                 this.dly = 0;
                 const element = this.src[this.addr];
                 this.cmd = (element & 0xF0) >> 4;
                 this.data = element & 0x0F;
                 this.executeCommand(this.cmd, this.data);
+                this.addr += 1;
+                this.$emit('updateAddr', this.addr)
             } else {
                 this.reset();
             }
@@ -111,7 +130,8 @@ export default {
             this.pwm2 = 0;
             this.srv1 = 0;
             this.srv2 = 0;
-            this.addr = -1;
+            this.tone = 0;
+            this.addr = 0;
             this.page = 0;
             this.raddr = 0;
             this.stack = [];
@@ -121,6 +141,7 @@ export default {
             this.$emit('updateAddr', this.addr)
         },
         executeCommand(cmd, data) {
+            this.dly = 0;
             switch (cmd) {
                 case 1:
                     this.doPort(data);
@@ -168,7 +189,7 @@ export default {
                     break;
                 case 13:
                     this.callstack.push(this.addr);
-                    this.addr = (16 * this.page) + data;
+                    this.addr = (16 * this.page) + data - 1;
                     break;
                 case 14:
                     if (data == 0) {
@@ -196,9 +217,16 @@ export default {
             this.dout4 = (data & 0x08) > 0
         },
         doDelay(data) {
-            let delays = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1, 2, 5, 10, 20, 30, 60];
+            let delays = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 30000, 60000];
             let myms = delays[data];
             this.dly = myms;
+            console.log('ms: ', myms)
+            var start = Date.now(),
+                now = start;
+            while ((now - start) < myms) {
+                now = Date.now();
+            }
+            console.log(now)
         },
         doIsA(data) {
             switch (data) {
@@ -232,16 +260,16 @@ export default {
                     this.dout4 = (this.rega & 1) > 0;
                     break;
                 case 9:
-                    this.pwm1 = Math.round(this.rega / 16.0 * 100.0);
+                    this.pwm1 = Math.trunc(this.rega / 16.0 * 100.0);
                     break;
                 case 10:
-                    this.pwm2 = Math.round(this.rega / 16.0 * 100.0);
+                    this.pwm2 = Math.trunc(this.rega / 16.0 * 100.0);
                     break;
                 case 11:
-                    this.srv1 = Math.round(this.rega / 16.0 * 180.0);
+                    this.srv1 = Math.trunc(this.rega / 16.0 * 180.0);
                     break;
                 case 12:
-                    this.srv2 = Math.round(this.rega / 16.0 * 180.0);
+                    this.srv2 = Math.trunc(this.rega / 16.0 * 180.0);
                     break;
                 case 13:
                     this.rege = this.rega;
@@ -285,16 +313,16 @@ export default {
                     this.rega = this.din4 | 0;
                     break;
                 case 9:
-                    this.rega = Math.round(this.adc1 / 100.0 * 16.0);
+                    this.rega = Math.trunc(this.adc1 / 100.0 * 16.0);
                     break;
                 case 10:
-                    this.rega = Math.round(this.adc2 / 100.0 * 16.0);
+                    this.rega = Math.trunc(this.adc2 / 100.0 * 16.0);
                     break;
                 case 11:
-                    this.rega = Math.round(this.rc1 / 180.0 * 16.0);
+                    this.rega = Math.trunc(this.rc1 / 180.0 * 16.0);
                     break;
                 case 12:
-                    this.rega = Math.round(this.rc2 / 180.0 * 16.0);
+                    this.rega = Math.trunc(this.rc2 / 180.0 * 16.0);
                     break;
                 case 13:
                     this.rega = this.rege;
@@ -424,63 +452,52 @@ export default {
         doByte(data) {
             switch (data) {
                 case 0:
-                    this.rega = Math.round((this.adc1 / 100.0) * 256);
+                    this.rega = Math.trunc((this.adc1 / 100.0) * 256);
                     break;
                 case 1:
-                    this.rega = Math.round((this.adc2 / 100.0) * 256);
+                    this.rega = Math.trunc((this.adc2 / 100.0) * 256);
                     break;
                 case 2:
-                    this.rega = Math.round((this.rc1 / 180.0) * 256);
+                    this.rega = Math.trunc((this.rc1 / 180.0) * 256);
                     break;
                 case 3:
-                    this.rega = Math.round((this.rc2 / 180.0) * 256);
+                    this.rega = Math.trunc((this.rc2 / 180.0) * 256);
                     break;
                 case 4:
-                    this.pwm1 = Math.round((this.rega / 256.0) * 100.0);
+                    this.pwm1 = Math.trunc((this.rega / 256.0) * 100.0);
                     break;
                 case 5:
-                    this.pwm2 = Math.round((this.rega / 256.0) * 100.0);
+                    this.pwm2 = Math.trunc((this.rega / 256.0) * 100.0);
                     break;
                 case 6:
-                    this.srv1 = Math.round((this.rega / 256.0) * 180.0);
+                    this.srv1 = Math.trunc((this.rega / 256.0) * 180.0);
                     break;
                 case 7:
-                    this.srv2 = Math.round((this.rega / 256.0) * 180.0);
+                    this.srv2 = Math.trunc((this.rega / 256.0) * 180.0);
                     break;
                 case 8:
-                    // tone is not implemented
                     this.tone = this.rega;
                     break;
                 default:
                     break;
             }
             this.rega = this.rega & 0xFF;
-        },
-        onadcchange() {
-            this.pwm1 = this.adc1;
-            this.pwm2 = this.adc2;
-        },
-        onrcchange() {
-            this.srv1 = this.rc1;
-            this.srv2 = this.rc2;
-        },
-        oninchange() {
-            this.dout1 = this.din1;
-            this.dout2 = this.din2;
-            this.dout3 = this.din3;
-            this.dout4 = this.din4;
-        },
-        donothing(event) {
-            if (event) {
-                event.stopPropagation();
-            }
         }
     },
     watch: {
         bin(bin) {
             this.reset();
+        },
+        selectedHardware(selectedHardware) {
+            this.$emit('updateHardware', selectedHardware);
         }
     },
     components: { Siminputs, Simoutputs, Siminternal }
 }
 </script>
+
+<style scoped>
+.p-combobox {
+    width: 10rem;
+}
+</style>
