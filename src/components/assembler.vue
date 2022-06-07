@@ -4,6 +4,12 @@
             <div class="toolbar-label">TPS Assembler</div>
         </template>
         <template #end>
+            <Button class="p-button-rounded" icon="pi pi-folder-open" v-tooltip.bottom="'load file from local'"
+                @click="$refs.file.click()"></Button>
+            <input type="file" ref="file" name="inputFile" id="inputFile" style="display: none" />
+            <Button class="p-button-rounded" icon="pi pi-save" v-tooltip.bottom="'save file to local'"
+                @click="saveFile('file text', 'myfilename.txt', 'text/plain')"></Button>
+            <a href="" ref="saver" id="saver">click here to download your file</a>
             <Dropdown v-model="selectedExample" :options="examples" optionLabel="name" optionGroupLabel="label"
                 optionGroupChildren="items" placeholder="select an example" @change="loadExample"></Dropdown>
             <i class="pi p-toolbar-separator mr-1" />
@@ -13,7 +19,8 @@
     </Toolbar>
     <TabView v-model:activeIndex="tabIndex">
         <TabPanel header="TPS File">
-            <Textarea style="white-space: pre;  overflow: auto;" v-model="source" rows="20" cols="36"></Textarea>
+            <Textarea ref="tpsfile" style="white-space: pre;  overflow: auto;" v-model="source" rows="20"
+                cols="36"></Textarea>
         </TabPanel>
         <TabPanel header="ASM File">
             <Textarea style="white-space: pre;  overflow: auto;" v-model="asm" rows="20" cols="36"></Textarea>
@@ -31,6 +38,7 @@
 </template>
 
 <script>
+import FileSaver from 'file-saver';
 export default {
     props: {
         linenumber: Number
@@ -63,8 +71,20 @@ export default {
                 }
             })
             .catch((err) => console.log(err.message));
+        let that = this
+        document.getElementById('inputFile').addEventListener('change', function () {
+            var file = new FileReader();
+            file.onload = () => {
+                that.source = file.result;
+            }
+            file.readAsText(this.files[0]);
+        });
     },
     methods: {
+        saveFile(text, name, type) {
+            var blob = new Blob(["Hello, world!"], { type: "text/plain;charset=utf-8" });
+            FileSaver.saveAs(blob, "hello world.txt");
+        },
         toSimu() {
             let mysrc = this.source.split("\n");
             this.bin = [];
