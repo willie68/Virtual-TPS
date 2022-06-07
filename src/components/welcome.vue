@@ -6,6 +6,7 @@
                 <span class="pi pi-question"></span>
             </button>
         </template>
+        <div>{{ header }}</div>
         <a href="http://rcarduino.de/doku.php?id=arduino:arduinosps" target="_blank">TPS/myco</a><br />
         Hallo, willkommen bei Virtual-TPS, dem TPS-Editor und Simulator für Ihren Browser.<br />
         Hier können Sie ihre TPS Programme in TPS Assembler schreiben und auch gleich mit dem Emulator testen.
@@ -363,11 +364,14 @@ export default {
     emits: ['help'],
     data() {
         return {
-            isCollapsed: false
+            isCollapsed: false,
+            version: __APP_VERSION__,
+            header: ""
         }
     },
     mounted() {
         setTimeout(this.collapse, 10000);
+        this.header = "Virtual Web TPS Beta Version: " +  this.version;
     },
     methods: {
         collapse() {

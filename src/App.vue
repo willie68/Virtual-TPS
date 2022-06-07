@@ -24,6 +24,7 @@ import Simulator from './components/simulator.vue';
           <Button class="p-button-sm p-button-rounded p-button-outlined " icon="pi pi-times" @click="sidebar = false;"></Button>
         </h2>
       </template>
+      <a href="https://wk-music.de/ArduinoWiki/doku.php?id=arduino:arduinosps:commandtable" target="_blank">Commandtable</a><br />
       0x####: 0x## "#"<br />Adresse: Command "Comment"
       <hr />
       <h3>Commands</h3>

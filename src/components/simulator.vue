@@ -8,10 +8,12 @@
             <i class="pi p-toolbar-separator mr-1" />
             <Button ref="btnstart" class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'"
                 :disabled="running" @click="start()"></Button>
-            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'" :disabled="!running" @click="stop()"></Button>
+            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'" :disabled="!running"
+                @click="stop()"></Button>
             <Button class="p-button-rounded" icon="pi pi-step-forward-alt" v-tooltip.bottom="'next step'"
                 :disabled="running" @click="next()"></Button>
-            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'" :disabled="running" @click="reset()"></Button>
+            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'" :disabled="running"
+                @click="reset()"></Button>
         </template>
     </Toolbar>
     <div class="grid">
@@ -27,8 +29,8 @@
     </div>
     <div class="grid">
         <div class="col">
-            <Siminternal :rega="rega" :regb="regb" :regc="regc" :regd="regd" :rege="rege" :regf="regf" :addr="addr"
-                :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly"
+            <Siminternal ref="siminternal" :rega="rega" :regb="regb" :regc="regc" :regd="regd" :rege="rege" :regf="regf"
+                :addr="addr" :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly"
                 :selectedHardware="selectedHardware" :callstack="callstack"></Siminternal>
         </div>
     </div>
@@ -85,6 +87,7 @@ export default {
             selectedHardware: "ArduinoTPS",
             hardwares: ['Holtek', 'ArduinoTPS', 'TinyTPS', 'ATMega8', 'Microbit', 'RP2040', 'ESP32'],
             myinterval: 0,
+            delays: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 30000, 60000],
         };
     },
     methods: {
@@ -114,6 +117,10 @@ export default {
                 this.executeCommand(this.cmd, this.data);
                 this.addr += 1;
                 this.$emit('updateAddr', this.addr)
+                let nextElement = this.src[this.addr];
+                let cmd = (nextElement & 0xF0) >> 4;
+                let data = nextElement & 0x0F;
+                this.preUpdate(cmd, data);
             } else {
                 this.reset();
             }
@@ -139,6 +146,17 @@ export default {
             this.callstack = [];
             this.started = false;
             this.$emit('updateAddr', this.addr)
+        },
+        preUpdate(cmd, data) {
+            switch (cmd) {
+                case 2:
+                    let myms = this.delays[data];
+                    this.dly = myms;
+                    console.log('predelay: ', myms);
+                    break;
+                default:
+                    break;
+            }
         },
         executeCommand(cmd, data) {
             this.dly = 0;
@@ -217,16 +235,16 @@ export default {
             this.dout4 = (data & 0x08) > 0
         },
         doDelay(data) {
-            let delays = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 30000, 60000];
-            let myms = delays[data];
+            let myms = this.delays[data];
             this.dly = myms;
-            console.log('ms: ', myms)
+            console.log('ms: ', myms);
             var start = Date.now(),
                 now = start;
             while ((now - start) < myms) {
                 now = Date.now();
             }
             console.log(now)
+            this.dly = 0;
         },
         doIsA(data) {
             switch (data) {

@@ -9,7 +9,6 @@
             <input type="file" ref="file" name="inputFile" id="inputFile" style="display: none" />
             <Button class="p-button-rounded" icon="pi pi-save" v-tooltip.bottom="'save file to local'"
                 @click="saveFile('file text', 'myfilename.txt', 'text/plain')"></Button>
-            <a href="" ref="saver" id="saver">click here to download your file</a>
             <Dropdown v-model="selectedExample" :options="examples" optionLabel="name" optionGroupLabel="label"
                 optionGroupChildren="items" placeholder="select an example" @change="loadExample"></Dropdown>
             <i class="pi p-toolbar-separator mr-1" />
@@ -82,8 +81,8 @@ export default {
     },
     methods: {
         saveFile(text, name, type) {
-            var blob = new Blob(["Hello, world!"], { type: "text/plain;charset=utf-8" });
-            FileSaver.saveAs(blob, "hello world.txt");
+            var blob = new Blob([this.source], { type: "text/plain;charset=utf-8" });
+            FileSaver.saveAs(blob, "file.tps");
         },
         toSimu() {
             let mysrc = this.source.split("\n");
