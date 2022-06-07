@@ -1,30 +1,30 @@
 <template>
     <Panel header="Outputs">
         <template #icons>
-            <button class="p-panel-header-icon p-link mr-2" @click="showDialog=!showDialog">
+            <button class="p-panel-header-icon p-link mr-2" @click="showDialog = !showDialog">
                 <span class="pi pi-arrow-up-left"></span>
             </button>
         </template>
         <div class="grid">
             <div class="col">
                 <label for="Dout4">Dout 4</label><br />
-                <ToggleButton id="Dout4" name="Dout4" v-model="dout4" readonly="true" disabled="disabled" onLabel=""
-                    offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
+                <ToggleButton id="Dout4" name="Dout4" v-model="dout4" onLabel="" offLabel="" onIcon="pi pi-circle"
+                    offIcon="pi pi-circle" />
             </div>
             <div class="col">
                 <label for="Dout3">Dout 3</label><br />
-                <ToggleButton id="Dout3" name="Dout3" v-model="dout3" readonly="true" disabled="disabled" onLabel=""
-                    offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
+                <ToggleButton id="Dout3" name="Dout3" v-model="dout3" onLabel="" offLabel="" onIcon="pi pi-circle"
+                    offIcon="pi pi-circle" />
             </div>
             <div class="col">
                 <label for="Dout2">Dout 2</label><br />
-                <ToggleButton id="Dout2" name="Dout2" v-model="dout2" readonly="true" disabled="disabled" onLabel=""
-                    offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
+                <ToggleButton id="Dout2" name="Dout2" v-model="dout2" onLabel="" offLabel="" onIcon="pi pi-circle"
+                    offIcon="pi pi-circle" />
             </div>
             <div class="col">
                 <label for="Dout1">Dout 1</label><br />
-                <ToggleButton id="Dout1" name="Dout1" v-model="dout1" readonly="true" disabled="disabled" onLabel=""
-                    offLabel="" onIcon="pi pi-check" offIcon="pi pi-times" />
+                <ToggleButton id="Dout1" name="Dout1" v-model="dout1" onLabel="" offLabel="" onIcon="pi pi-circle"
+                    offIcon="pi pi-circle" />
             </div>
             <div class="col">
                 <label for="Dout1">Dout</label><br />
@@ -62,24 +62,28 @@
         </div>
     </Panel>
     <Dialog position="topleft" v-model:visible="showDialog" :closable="false">
-                <div class="grid">
+        <div class="grid">
             <div class="col">
-                <ToggleButton :class="{dout: dout4}" id="Dout4" name="Dout4" v-model="dout4" onIcon="pi pi-circle" offIcon="pi pi-circle" />
+                <ToggleButton :class="{ dout: dout4 }" id="Dout4" name="Dout4" v-model="dout4" onIcon="pi pi-circle"
+                    offIcon="pi pi-circle" />
                 <br />
                 <label for="Dout4">Dout 4</label>
             </div>
             <div class="col">
-                <ToggleButton :class="{dout: dout3}" id="Dout3" name="Dout3" v-model="dout3" onIcon="pi pi-circle" offIcon="pi pi-circle" />
+                <ToggleButton :class="{ dout: dout3 }" id="Dout3" name="Dout3" v-model="dout3" onIcon="pi pi-circle"
+                    offIcon="pi pi-circle" />
                 <br />
                 <label for="Dout3">Dout 3</label>
             </div>
             <div class="col">
-                <ToggleButton :class="{dout: dout2}" id="Dout2" name="Dout2" v-model="dout2" onIcon="pi pi-circle" offIcon="pi pi-circle" />
+                <ToggleButton :class="{ dout: dout2 }" id="Dout2" name="Dout2" v-model="dout2" onIcon="pi pi-circle"
+                    offIcon="pi pi-circle" />
                 <br />
                 <label for="Dout2">Dout 2</label>
             </div>
             <div class="col">
-                <ToggleButton :class="{dout: dout1}" id="Dout1" name="Dout1" v-model="dout1"  onIcon="pi pi-circle" offIcon="pi pi-circle" />
+                <ToggleButton :class="{ dout: dout1 }" id="Dout1" name="Dout1" v-model="dout1" onIcon="pi pi-circle"
+                    offIcon="pi pi-circle" />
                 <br />
                 <label for="Dout1">Dout 1</label>
             </div>
@@ -121,7 +125,6 @@ export default {
 
 </script>
 <style scoped>
-
 .dout {
     background-color: white !important;
 }

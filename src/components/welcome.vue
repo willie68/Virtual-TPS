@@ -385,7 +385,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 a:link {
     color: lightblue;
     background-color: transparent;

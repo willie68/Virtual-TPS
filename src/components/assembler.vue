@@ -8,7 +8,7 @@
                 @click="$refs.file.click()"></Button>
             <input type="file" ref="file" name="inputFile" id="inputFile" style="display: none" />
             <Button class="p-button-rounded" icon="pi pi-save" v-tooltip.bottom="'save file to local'"
-                @click="saveFile('file text', 'myfilename.txt', 'text/plain')"></Button>
+                @click="saveFile()"></Button>
             <Dropdown v-model="selectedExample" :options="examples" optionLabel="name" optionGroupLabel="label"
                 optionGroupChildren="items" placeholder="select an example" @change="loadExample"></Dropdown>
             <i class="pi p-toolbar-separator mr-1" />
@@ -18,6 +18,8 @@
     </Toolbar>
     <TabView v-model:activeIndex="tabIndex">
         <TabPanel header="TPS File">
+            <label for="filename">Filename: </label>
+            <InputText id="filename" name="filename" v-model="filename" />
             <Textarea ref="tpsfile" style="white-space: pre;  overflow: auto;" v-model="source" rows="20"
                 cols="36"></Textarea>
         </TabPanel>
@@ -32,12 +34,20 @@
                     <p v-else>{{ item }}</p>
                 </div>
             </ScrollPanel>
+            <div>
+                <label style="padding: 70px 0;" for="filename">Output format: </label>
+                <Dropdown v-model="outputformat" :options="outputformats" placeholder="select an format"></Dropdown>
+                <Button class="p-button-rounded" icon="pi pi-save" v-tooltip.bottom="'export file'"
+                    @click="exportFile()"></Button>
+            </div>
         </TabPanel>
     </TabView>
 </template>
 
 <script>
 import FileSaver from 'file-saver';
+import MemoryMap from 'nrf-intel-hex';
+
 export default {
     props: {
         linenumber: Number
@@ -54,6 +64,9 @@ export default {
             examples: [],
             tabIndex: 0,
             asm: "",
+            filename: "file.tps",
+            outputformats: ["IntelHEX", "TPS", "BIN"],
+            outputformat: "TPS",
         }
     },
     mounted() {
@@ -80,9 +93,33 @@ export default {
         });
     },
     methods: {
-        saveFile(text, name, type) {
+        saveFile() {
             var blob = new Blob([this.source], { type: "text/plain;charset=utf-8" });
-            FileSaver.saveAs(blob, "file.tps");
+            FileSaver.saveAs(blob, this.filename);
+        },
+        exportFile() {
+            let pos = this.filename.lastIndexOf(".")
+            let file = this.filename.substring(0, pos)
+            switch (this.outputformat) {
+                case "TPS":
+                    var blob = new Blob([this.source], { type: "text/plain;charset=utf-8" });
+                    FileSaver.saveAs(blob, file + ".tps");
+                    break;
+                case "BIN":
+                    let mbytes = new Uint8Array(this.bin);
+                    var blob = new Blob([mbytes], { type: "application/octet-stream" });
+                    FileSaver.saveAs(blob, file + ".bin");
+                    break;
+                case "IntelHEX":
+                    let memMap = new MemoryMap();
+                    let bytes = new Uint8Array(this.bin);
+                    memMap.set(0x00, bytes); // The block with 'bytes' will start at offset 0x0FF80000
+                    let string = memMap.asHexString();
+                    var blob = new Blob([string], { type: "text/plain;charset=utf-8" });
+                    FileSaver.saveAs(blob, file + ".hex");
+                    break;
+                    break;
+            }
         },
         toSimu() {
             let mysrc = this.source.split("\n");
@@ -121,6 +158,7 @@ export default {
                 })
                 .catch((err) => console.log(err.message));
             this.tabIndex = 0;
+            this.filename = this.selectedExample.file;
         },
         goto(refName) {
             //console.log(this.$refs)
@@ -147,6 +185,6 @@ export default {
 }
 
 .p-dropdown {
-    width: 12rem;
+    width: 8rem;
 }
 </style>
