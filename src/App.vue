@@ -13,13 +13,14 @@ import Helppanel from './components/helppanel.vue';
     <Welcome @help="sidebar = true;"></Welcome>
     <div class="grid">
       <div class="col-3">
-        <Assembler @updatebin="doBin($event)" :linenumber="addr"></Assembler>
+        <Assembler @updatebin="doBin($event)" :linenumber="addr" :example="exampleFile"></Assembler>
       </div>
       <div class="col-9">
         <Simulator :bin="bin" @update-addr="doAddr($event)"></Simulator>
       </div>
     </div>
-    <Sidebar class="p-sidebar-md" v-model:visible="sidebar" :baseZIndex="10000" position="right" :dismissable="true" :showCloseIcon="false">
+    <Sidebar class="p-sidebar-md" v-model:visible="sidebar" :baseZIndex="10000" position="right" :dismissable="true"
+      :showCloseIcon="false">
       <template #header>
         <h2>Help Command Bin File Format
           <Button class="p-button-sm p-button-rounded" icon="pi pi-times" @click="sidebar = false;"></Button>
@@ -38,8 +39,14 @@ export default {
       displayBasic: false,
       addr: 0,
       bin: [],
-      sidebar: false
+      sidebar: false,
+      exampleFile: "",
     }
+  },
+  mounted() {
+    let uri = window.location.search.substring(1);
+    let params = new URLSearchParams(uri);
+    this.exampleFile = params.get("example")
   },
   methods: {
     doBin(bin) {

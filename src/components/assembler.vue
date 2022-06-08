@@ -50,7 +50,8 @@ import MemoryMap from 'nrf-intel-hex';
 
 export default {
     props: {
-        linenumber: Number
+        linenumber: Number,
+        example: String,
     },
     emits: ['updatebin'],
     data() {
@@ -80,6 +81,13 @@ export default {
                         "items": value
                     }
                     this.examples.push(item);
+                }
+                if (this.example) {
+                    this.selectedExample = {
+                        file: this.example,
+                        name: this.example,
+                    }
+                    this.loadExample()
                 }
             })
             .catch((err) => console.log(err.message));
