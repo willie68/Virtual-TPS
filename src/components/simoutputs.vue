@@ -61,38 +61,12 @@
             </div>
         </div>
     </Panel>
-    <Dialog position="topleft" v-model:visible="showDialog" :closable="false">
-        <div class="grid">
-            <div class="col">
-                <ToggleButton :class="{ dout: dout4 }" id="Dout4" name="Dout4" v-model="dout4" onIcon="pi pi-circle"
-                    offIcon="pi pi-circle" />
-                <br />
-                <label for="Dout4">Dout 4</label>
-            </div>
-            <div class="col">
-                <ToggleButton :class="{ dout: dout3 }" id="Dout3" name="Dout3" v-model="dout3" onIcon="pi pi-circle"
-                    offIcon="pi pi-circle" />
-                <br />
-                <label for="Dout3">Dout 3</label>
-            </div>
-            <div class="col">
-                <ToggleButton :class="{ dout: dout2 }" id="Dout2" name="Dout2" v-model="dout2" onIcon="pi pi-circle"
-                    offIcon="pi pi-circle" />
-                <br />
-                <label for="Dout2">Dout 2</label>
-            </div>
-            <div class="col">
-                <ToggleButton :class="{ dout: dout1 }" id="Dout1" name="Dout1" v-model="dout1" onIcon="pi pi-circle"
-                    offIcon="pi pi-circle" />
-                <br />
-                <label for="Dout1">Dout 1</label>
-            </div>
-        </div>
-    </Dialog>
+    <Popupout :showDialog="showDialog" :dout1="dout1" :dout2="dout2" :dout3="dout3" :dout4="dout4"/>
 </template>
 
 <script>
 import { resolveDirective, withDirectives } from "vue";
+import Popupout from "./popupout.vue";
 
 export default {
     props: {
@@ -110,17 +84,17 @@ export default {
     data() {
         return {
             showDialog: false,
-        }
+        };
     },
     computed: {
         dout: {
             get() {
                 let d = (this.dout1 | 0) + ((this.dout2 | 0) << 1) + ((this.dout3 | 0) << 2) + ((this.dout4 | 0) << 3);
-                return '0x' + d.toString(16)
+                return "0x" + d.toString(16);
             }
         },
-
-    }
+    },
+    components: { Popupout }
 }
 
 </script>
