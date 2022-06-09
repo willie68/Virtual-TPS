@@ -27,6 +27,8 @@
             <InputText id="filename" name="filename" v-model="filename" />
             <Textarea ref="tpsfile" style="white-space: pre;  overflow: auto;" v-model="source" rows="20"
                 cols="36"></Textarea>
+            <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'simulate'"
+                @click="toSimu()"></Button>
         </TabPanel>
         <TabPanel header="Bin File">
             <ScrollPanel ref="scroll" style="width: 100%; height: 540px">
@@ -73,7 +75,7 @@ export default {
         }
     },
     mounted() {
-        fetch("/down/tps_examples/examples.json")
+        fetch("https://wkla.no-ip.biz/down/tps_examples/examples.json")
             .then((res) => res.json())
             .then((data) => {
                 this.exp = data;
