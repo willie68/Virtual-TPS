@@ -12,19 +12,21 @@
             <Dropdown v-model="selectedExample" :options="examples" optionLabel="name" optionGroupLabel="label"
                 optionGroupChildren="items" placeholder="select an example" @change="loadExample"></Dropdown>
             <i class="pi p-toolbar-separator mr-1" />
-            <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'to simulator'"
-                @click="toSimu()"></Button>
         </template>
     </Toolbar>
     <TabView v-model:activeIndex="tabIndex">
+        <TabPanel header="ASM File">
+            <label for="filename">Filename: </label>
+            <InputText id="filename" name="filename" v-model="filename" />
+            <Textarea style="white-space: pre;  overflow: auto;" v-model="asm" rows="20" cols="36"></Textarea>
+            <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'compile'"
+                @click="assemble()"></Button>
+        </TabPanel>
         <TabPanel header="TPS File">
             <label for="filename">Filename: </label>
             <InputText id="filename" name="filename" v-model="filename" />
             <Textarea ref="tpsfile" style="white-space: pre;  overflow: auto;" v-model="source" rows="20"
                 cols="36"></Textarea>
-        </TabPanel>
-        <TabPanel header="ASM File">
-            <Textarea style="white-space: pre;  overflow: auto;" v-model="asm" rows="20" cols="36"></Textarea>
         </TabPanel>
         <TabPanel header="Bin File">
             <ScrollPanel ref="scroll" style="width: 100%; height: 540px">
@@ -65,7 +67,7 @@ export default {
             examples: [],
             tabIndex: 0,
             asm: "",
-            filename: "file.tps",
+            filename: "file",
             outputformats: ["IntelHEX", "TPS", "BIN"],
             outputformat: "TPS",
         }
@@ -107,7 +109,10 @@ export default {
         },
         exportFile() {
             let pos = this.filename.lastIndexOf(".")
-            let file = this.filename.substring(0, pos)
+            let file = this.filename
+            if (pos >= 0) {
+                file = this.filename.substring(0, pos)
+            }
             switch (this.outputformat) {
                 case "TPS":
                     var blob = new Blob([this.source], { type: "text/plain;charset=utf-8" });
@@ -172,6 +177,33 @@ export default {
             //console.log(this.$refs)
             var line = this.$refs[refName];
             line.scrollIntoView;
+        },
+        assemble() {
+            var actionPostUrl =
+                "https://localhost:9543/api/v1/asm/generate";
+            console.log("trying to connect to asm server")
+            var options = {
+                method: "POST",
+                body: JSON.stringify({
+                    outputformat: 'tps',
+                    asm: this.asm,
+                    hardware: this.hardware,
+                    name: this.filename,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+            let that = this;
+            fetch(actionPostUrl, options)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    that.source = data.destination;
+                    that.filename = data.name;
+                    this.toSimu();
+                })
+                .catch((err) => console.log(err.message));
         }
     },
     watch: {
