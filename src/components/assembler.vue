@@ -161,11 +161,9 @@ export default {
             this.$emit('updatebin', this.bin)
         },
         loadExample() {
-            let url = "/down/tps_examples/" + this.selectedExample.file;
+            let url = "https://wkla.no-ip.biz/down/tps_examples/" + this.selectedExample.file;
             let that = this;
-            fetch(url, {
-                mode: 'no-cors'
-            })
+            fetch(url)
                 .then((res) => res.text())
                 .then(txt => {
                     that.source = txt;
