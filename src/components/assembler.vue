@@ -57,7 +57,7 @@ export default {
         linenumber: Number,
         example: String,
     },
-    emits: ['updatebin'],
+    emits: ['updatebin', 'updatemode'],
     data() {
         return {
             source: "",
@@ -210,6 +210,19 @@ export default {
         linenumber(linenumber) {
             this.goto("ad_" + linenumber);
         },
+        tabIndex(tabIndex) {
+            switch (tabIndex) {
+                case 0:
+                    this.$emit('updatemode', 'asm')
+                    break;
+                case 1:
+                    this.$emit('updatemode', 'tps')
+                    break;            
+                default:
+                    this.$emit('updatemode', 'tps')
+                    break;
+            }
+        }
     }
 }
 </script>

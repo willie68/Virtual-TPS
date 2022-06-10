@@ -1,5 +1,5 @@
 <template>
-    <Panel class="welcome-panel-header-custom" header="Virtual Web TPS Beta" :toggleable="true"
+    <Panel class="welcome-panel-header-custom" header="Virtual TPS Beta" :toggleable="true"
         v-model:collapsed="isCollapsed">
         <template #icons>
             <button class="p-panel-header-icon p-link mr-2" @click="toggle">
@@ -9,7 +9,8 @@
         <div>{{ header }}</div>
         <a href="http://rcarduino.de/doku.php?id=arduino:arduinosps" target="_blank">TPS/myco</a><br />
         Hallo, willkommen bei Virtual-TPS, dem TPS-Editor und Simulator für Ihren Browser.<br />
-        Hier können Sie ihre TPS Programme in TPS Assembler schreiben und auch gleich mit dem Emulator testen.
+        Hier können Sie ihre TPS Programme in TPS Assembler oder auch direkt in TPS schreiben und mit einem Simulator testen.<br />
+        Falls Sie Probleme fest gestellt haben, können Sie diese in github unter <a href="https://github.com/willie68/Virtual-TPS/issues"  target="_blank">Virtual TPS issues</a> berichten.
     </Panel>
     <OverlayPanel ref="op" :showCloseIcon="true">
         <table border="1">
@@ -371,7 +372,7 @@ export default {
     },
     mounted() {
         setTimeout(this.collapse, 10000);
-        this.header = "Virtual Web TPS Beta Version: " +  this.version;
+        this.header = "Virtual TPS Beta Version: " +  this.version;
     },
     methods: {
         collapse() {

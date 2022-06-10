@@ -13,7 +13,8 @@ import Helppanel from './components/helppanel.vue';
     <Welcome @help="sidebar = true;"></Welcome>
     <div class="grid">
       <div class="col-3">
-        <Assembler @updatebin="doBin($event)" :linenumber="addr" :example="exampleFile"></Assembler>
+        <Assembler @updatebin="doBin($event)" @updatemode="doMode($event)" :linenumber="addr" :example="exampleFile">
+        </Assembler>
       </div>
       <div class="col-9">
         <Simulator :bin="bin" @update-addr="doAddr($event)"></Simulator>
@@ -26,7 +27,7 @@ import Helppanel from './components/helppanel.vue';
           <Button class="p-button-sm p-button-rounded" icon="pi pi-times" @click="sidebar = false;"></Button>
         </h2>
       </template>
-      <Helppanel />
+      <Helppanel :mode="mode" />
     </Sidebar>
   </main>
 </template>
@@ -41,6 +42,7 @@ export default {
       bin: [],
       sidebar: false,
       exampleFile: "",
+      mode: "asm",
     }
   },
   mounted() {
@@ -51,6 +53,9 @@ export default {
   methods: {
     doBin(bin) {
       this.bin = bin;
+    },
+    doMode(mode) {
+      this.mode = mode;
     },
     doAddr(addr) {
       this.addr = addr;

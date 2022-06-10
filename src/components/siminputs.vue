@@ -1,5 +1,10 @@
 <template>
     <Panel header="Inputs">
+        <template #icons>
+            <button class="p-panel-header-icon p-link mr-2" @click="showDialog = !showDialog">
+                <span class="pi pi-ban"></span>
+            </button>
+        </template>
         <div class="grid">
             <div class="col">
                 <label for="Din4">Din 4</label><br />
@@ -28,17 +33,17 @@
                 <Knob id="ADC1" name="ADC1" v-model="adc1i" :min="0" :max="100" valueTemplate="{value}%" :size="70" />
                 <font size="1rem">{{ad1hex}}</font> 
             </div>
-            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)" class="col">
+            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" class="col">
                 <label for="ADC2">ADC 2</label><br />
                 <Knob id="ADC2" name="ADC2" v-model="adc2i" :min="0" :max="100" valueTemplate="{value}%" :size="70" />
                 <font size="1rem">{{ad2hex}}</font>
             </div>
-            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)" class="col">
+            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" class="col">
                 <label for="RC1">RC 1</label><br />
                 <Knob id="RC1" name="RC1" v-model="rc1i" :min="0" :max="180" valueTemplate="{value}°" :size="70" />
                 <font size="1rem">{{rc1hex}}</font>
             </div>
-            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32'].includes(this.selectedHardware)" class="col">
+            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" class="col">
                 <label for="RC2">RC 2</label><br />
                 <Knob id="RC2" name="RC2" v-model="rc2i" :min="0" :max="180" valueTemplate="{value}°" :size="70" />
                 <font size="1rem">{{rc2hex}}</font>
@@ -46,13 +51,11 @@
         </div>
         <div class="grid">
             <div class="col">
-                <label for="SEL">SEL</label><br />
-                <ToggleButton id="SEL" name="SEL" v-model="seli" onLabel="pressed" offLabel="not pressed" onIcon="pi pi-check"
+                <ToggleButton id="SEL" name="SEL" v-model="seli" onLabel="SEL pressed" offLabel="SEL not pressed" onIcon="pi pi-check"
                     offIcon="pi pi-times"/>
             </div>
             <div class="col">
-                <label for="PRG">PRG</label><br />
-                <ToggleButton id="PRG" name="PRG" v-model="prgi" onLabel="pressed" offLabel="not pressed" onIcon="pi pi-check"
+                <ToggleButton id="PRG" name="PRG" v-model="prgi" onLabel="PRG pressed" offLabel="PRG not pressed" onIcon="pi pi-check"
                     offIcon="pi pi-times" />
             </div>
         </div>
