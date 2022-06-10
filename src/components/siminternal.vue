@@ -1,5 +1,5 @@
 <template>
-    <Panel header="Internal">
+    <Panel header="Internal" style="width: 100%">
         <div class="grid">
             <div class="col">
                 <label for="rega">A</label>

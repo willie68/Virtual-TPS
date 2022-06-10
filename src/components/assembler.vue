@@ -4,10 +4,10 @@
             <div class="toolbar-label">TPS Assembler</div>
         </template>
         <template #end>
-            <Button class="p-button-rounded" icon="pi pi-folder-open" v-tooltip.bottom="'load file from local'"
+            <Button class="p-button-rounded  mx-1" icon="pi pi-folder-open" v-tooltip.bottom="'load file from local'"
                 @click="$refs.file.click()"></Button>
             <input type="file" ref="file" name="inputFile" id="inputFile" style="display: none" />
-            <Button class="p-button-rounded" icon="pi pi-save" v-tooltip.bottom="'save file to local'"
+            <Button class="p-button-rounded  mx-1" icon="pi pi-save" v-tooltip.bottom="'save file to local'"
                 @click="saveFile()"></Button>
             <Dropdown v-model="selectedExample" :options="examples" optionLabel="name" optionGroupLabel="label"
                 optionGroupChildren="items" placeholder="select an example" @change="loadExample"></Dropdown>
@@ -18,17 +18,19 @@
         <TabPanel header="ASM File">
             <label for="filename">Filename: </label>
             <InputText id="filename" name="filename" v-model="filename" />
-            <Textarea style="white-space: pre;  overflow: auto;" v-model="asm" rows="20" cols="36"></Textarea>
-            <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'compile'"
-                @click="assemble()"></Button>
+            <Textarea style="white-space: pre;  overflow: auto;" v-model="asm" rows="20" cols="36"></Textarea><br />
+            <br />
+            <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'compile'" @click="assemble()"
+                label="Compile"></Button>
         </TabPanel>
         <TabPanel header="TPS File">
             <label for="filename">Filename: </label>
             <InputText id="filename" name="filename" v-model="filename" />
             <Textarea ref="tpsfile" style="white-space: pre;  overflow: auto;" v-model="source" rows="20"
-                cols="36"></Textarea>
-            <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'simulate'"
-                @click="toSimu()"></Button>
+                cols="36"></Textarea><br />
+            <br />
+            <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'simulate'" @click="toSimu()"
+                label="Simulate"></Button>
         </TabPanel>
         <TabPanel header="Bin File">
             <ScrollPanel ref="scroll" style="width: 100%; height: 540px">
@@ -38,11 +40,12 @@
                     <p v-else>{{ item }}</p>
                 </div>
             </ScrollPanel>
+            <br />
             <div>
                 <label style="padding: 70px 0;" for="filename">Output format: </label>
                 <Dropdown v-model="outputformat" :options="outputformats" placeholder="select an format"></Dropdown>
                 <Button class="p-button-rounded" icon="pi pi-save" v-tooltip.bottom="'export file'"
-                    @click="exportFile()"></Button>
+                    @click="exportFile()" label="export file"></Button>
             </div>
         </TabPanel>
     </TabView>
@@ -56,6 +59,7 @@ export default {
     props: {
         linenumber: Number,
         example: String,
+        hardware: String,
     },
     emits: ['updatebin', 'updatemode'],
     data() {
@@ -175,8 +179,8 @@ export default {
         },
         goto(refName) {
             //console.log(this.$refs)
-            var line = this.$refs[refName];
-            line.scrollIntoView;
+            //var line = this.$refs[refName];
+            //line.scrollIntoView;
         },
         assemble() {
             var actionPostUrl =
@@ -192,7 +196,7 @@ export default {
                 }),
                 headers: {
                     "Content-Type": "application/json",
-                },
+                }
             };
             let that = this;
             fetch(actionPostUrl, options)
@@ -217,7 +221,7 @@ export default {
                     break;
                 case 1:
                     this.$emit('updatemode', 'tps')
-                    break;            
+                    break;
                 default:
                     this.$emit('updatemode', 'tps')
                     break;

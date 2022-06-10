@@ -13,18 +13,24 @@ import Helppanel from './components/helppanel.vue';
     <Welcome @help="sidebar = true;"></Welcome>
     <div class="grid">
       <div class="col-3">
-        <Assembler @updatebin="doBin($event)" @updatemode="doMode($event)" :linenumber="addr" :example="exampleFile">
+        <Assembler @updatebin="doBin($event)" @updatemode="doMode($event)" :linenumber="addr" :example="exampleFile"
+          :hardware="hardware">
         </Assembler>
       </div>
       <div class="col-9">
-        <Simulator :bin="bin" @update-addr="doAddr($event)"></Simulator>
+        <Simulator :bin="bin" @update-addr="doAddr($event)" @update-hardware="doHardware($event)"></Simulator>
       </div>
     </div>
     <Sidebar class="p-sidebar-md" v-model:visible="sidebar" :baseZIndex="10000" position="right" :dismissable="true"
       :showCloseIcon="false">
       <template #header>
-        <h2>Help Command Bin File Format
-          <Button class="p-button-sm p-button-rounded" icon="pi pi-times" @click="sidebar = false;"></Button>
+        <h2>
+          <p v-if="mode === 'tps'">Help Command Bin File Format
+            <Button class="p-button-sm p-button-rounded" icon="pi pi-times" @click="sidebar = false;"></Button>
+          </p>
+          <p v-if="mode === 'asm'">Help Command Asm File Format
+            <Button class="p-button-sm p-button-rounded" icon="pi pi-times" @click="sidebar = false;"></Button>
+          </p>
         </h2>
       </template>
       <Helppanel :mode="mode" />
@@ -43,6 +49,7 @@ export default {
       sidebar: false,
       exampleFile: "",
       mode: "asm",
+      hardware: "ArduinoTPS",
     }
   },
   mounted() {
@@ -59,6 +66,9 @@ export default {
     },
     doAddr(addr) {
       this.addr = addr;
+    },
+    doHardware(hardware) {
+      this.hardware = hardware;
     }
   }
 }

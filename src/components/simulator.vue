@@ -6,29 +6,33 @@
         <template #end>
             <Dropdown v-model="selectedHardware" :options="hardwares"></Dropdown>
             <i class="pi p-toolbar-separator mr-1" />
-            <Button ref="btnstart" class="p-button-rounded" icon="pi pi-play" v-tooltip.bottom="'start'"
+            <Button ref="btnstart" class="p-button-rounded mx-1" icon="pi pi-play" v-tooltip.bottom="'start'"
                 :disabled="running" @click="start()"></Button>
-            <Button class="p-button-rounded" icon="pi pi-stop" v-tooltip.bottom="'stop'" :disabled="!running"
+            <Button class="p-button-rounded mx-1" icon="pi pi-stop" v-tooltip.bottom="'stop'" :disabled="!running"
                 @click="stop()"></Button>
-            <Button class="p-button-rounded" icon="pi pi-step-forward-alt" v-tooltip.bottom="'next step'"
+            <Button class="p-button-rounded mx-1" icon="pi pi-step-forward-alt" v-tooltip.bottom="'next step'"
                 :disabled="running" @click="next()"></Button>
-            <Button class="p-button-rounded" icon="pi pi-undo" v-tooltip.bottom="'restart'" :disabled="running"
+            <Button class="p-button-rounded mx-1" icon="pi pi-undo" v-tooltip.bottom="'restart'" :disabled="running"
                 @click="reset()"></Button>
         </template>
     </Toolbar>
-    <div class="grid">
-        <div class="col">
+    <div class="flex flex-wrap card-container blue-container" style="width: 100%">
+        <div class="flex align-items-center justify-content-center font-bold text-white m-2 border-round"
+            style="min-width: 500px; min-height: 100px">
             <Siminputs v-model:din1="din1" v-model:din2="din2" v-model:din3="din3" v-model:din4="din4"
                 v-model:adc1="adc1" v-model:adc2="adc2" v-model:rc1="rc1" v-model:rc2="rc2" v-model:prg="prg"
                 v-model:sel="sel" :selectedHardware="selectedHardware"></Siminputs>
         </div>
-        <div class="col">
+        <div class="flex align-items-center justify-content-center font-bold text-white m-2 border-round"
+            style="min-width: 500px; min-height: 100px">
             <Simoutputs :dout1="dout1" :dout2="dout2" :dout3="dout3" :dout4="dout4" :pwm1="pwm1" :pwm2="pwm2"
                 :srv1="srv1" :srv2="srv2" :tone="tone" :selectedHardware="selectedHardware"></Simoutputs>
         </div>
     </div>
-    <div class="grid">
-        <div class="col">
+
+    <div class="flex flex-wrap card-container blue-container" style="width: 100%">
+        <div class="flex align-items-center justify-content-center font-bold text-white m-2 border-round"
+            style="min-width: 500px; min-height: 100px">
             <Siminternal ref="siminternal" :rega="rega" :regb="regb" :regc="regc" :regd="regd" :rege="rege" :regf="regf"
                 :addr="addr" :page="page" :raddr="raddr" :stack="stack" :cmd="cmd" :data="data" :dly="dly"
                 :selectedHardware="selectedHardware" :callstack="callstack"></Siminternal>

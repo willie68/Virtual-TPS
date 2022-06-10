@@ -1,5 +1,5 @@
 <template>
-    <Panel header="Outputs">
+    <Panel header="Outputs" style="width: 100%">
         <template #icons>
             <button class="p-panel-header-icon p-link mr-2" @click="showDialog = !showDialog">
                 <span class="pi pi-arrow-up-left"></span>
