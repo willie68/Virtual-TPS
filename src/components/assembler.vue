@@ -28,7 +28,7 @@
             <label class="mx-1" for="filename">Filename: </label>
             <InputText id="filename" name="filename" v-model="filename" />
             <Textarea ref="tpsfile" style="white-space: pre;  overflow: auto;" v-model="source" rows="20" cols="36"
-                placeholder="put your tps code here"></Textarea><br />
+                :placeholder="placetps"></Textarea><br />
             <br />
             <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'simulate'" @click="toSimu()"
                 label="Simulate"></Button>
@@ -79,6 +79,7 @@ export default {
             filename: "file",
             outputformats: ["IntelHEX", "TPS", "BIN"],
             outputformat: "TPS",
+            placetps: "put your tps code here",
         }
     },
     mounted() {
@@ -106,7 +107,7 @@ export default {
         document.getElementById('inputFile').addEventListener('change', function () {
             let filename = this.files[0].name
             that.filename = filename.substring(0, filename.lastIndexOf('.'))
-            let ext = filename.substring(filename.lastIndexOf('.')+1)
+            let ext = filename.substring(filename.lastIndexOf('.') + 1)
             var file = new FileReader();
             file.onload = () => {
                 if (ext === 'tps') {
@@ -123,8 +124,13 @@ export default {
     },
     methods: {
         saveFile() {
-            var blob = new Blob([this.source], { type: "text/plain;charset=utf-8" });
-            FileSaver.saveAs(blob, this.filename);
+            if (this.tabIndex == 0) {
+                var blob = new Blob([this.asm], { type: "text/plain;charset=utf-8" });
+                FileSaver.saveAs(blob, this.filename + '.asm');
+            } else {
+                var blob = new Blob([this.source], { type: "text/plain;charset=utf-8" });
+                FileSaver.saveAs(blob, this.filename + '.tps');
+            }
         },
         exportFile() {
             let pos = this.filename.lastIndexOf(".")
@@ -177,7 +183,8 @@ export default {
             this.$emit('updatebin', this.bin)
         },
         loadExample() {
-            let url = "https://wkla.no-ip.biz/down/tps_examples/" + this.selectedExample.file;
+            let filename = this.selectedExample.file
+            let url = "https://wkla.no-ip.biz/down/tps_examples/" + filename;
             let that = this;
             fetch(url)
                 .then((res) => res.text())
@@ -185,9 +192,17 @@ export default {
                     that.source = txt;
                     this.toSimu();
                 })
-                .catch((err) => console.log(err.message));
-            this.tabIndex = 0;
-            this.filename = this.selectedExample.file;
+                .catch((err) => {
+                    that.placetps = 'can\'t load example:' + err.message
+                    console.log(err.message)
+                });
+            this.tabIndex = 1;
+            let pos = filename.lastIndexOf(".")
+            let file = filename
+            if (pos >= 0) {
+                file = filename.substring(0, pos)
+            }
+            this.filename = file;
         },
         goto(refName) {
             //console.log(this.$refs)
