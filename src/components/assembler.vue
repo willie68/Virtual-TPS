@@ -16,23 +16,26 @@
     </Toolbar>
     <TabView v-model:activeIndex="tabIndex">
         <TabPanel header="ASM File">
-            <label for="filename">Filename: </label>
+            <label class="mx-1" for="filename">Filename: </label>
             <InputText id="filename" name="filename" v-model="filename" />
-            <Textarea style="white-space: pre;  overflow: auto;" v-model="asm" rows="20" cols="36"></Textarea><br />
+            <Textarea style="white-space: pre;  overflow: auto;" v-model="asm" rows="20" cols="36"
+                placeholder="put your assembler code here"></Textarea><br />
             <br />
             <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'compile'" @click="assemble()"
                 label="Compile"></Button>
         </TabPanel>
         <TabPanel header="TPS File">
-            <label for="filename">Filename: </label>
+            <label class="mx-1" for="filename">Filename: </label>
             <InputText id="filename" name="filename" v-model="filename" />
-            <Textarea ref="tpsfile" style="white-space: pre;  overflow: auto;" v-model="source" rows="20"
-                cols="36"></Textarea><br />
+            <Textarea ref="tpsfile" style="white-space: pre;  overflow: auto;" v-model="source" rows="20" cols="36"
+                placeholder="put your tps code here"></Textarea><br />
             <br />
             <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'simulate'" @click="toSimu()"
                 label="Simulate"></Button>
         </TabPanel>
         <TabPanel header="Bin File">
+            <label class="mx-1" for="filename">Filename: </label>
+            <InputText id="filename" name="filename" readonly="true" v-model="filename" />
             <ScrollPanel ref="scroll" style="width: 100%; height: 540px">
                 <div :ref="'ad_' + index" width="100%" v-for="(item, index) in lines">
                     <p v-if="index == this.linenumber" class="line-highlight">{{ item }}
@@ -101,9 +104,19 @@ export default {
             .catch((err) => console.log(err.message));
         let that = this
         document.getElementById('inputFile').addEventListener('change', function () {
+            let filename = this.files[0].name
+            that.filename = filename.substring(0, filename.lastIndexOf('.'))
+            let ext = filename.substring(filename.lastIndexOf('.')+1)
             var file = new FileReader();
             file.onload = () => {
-                that.source = file.result;
+                if (ext === 'tps') {
+                    that.source = file.result;
+                    that.tabIndex = 1
+                }
+                if (ext === 'asm') {
+                    that.asm = file.result;
+                    that.tabIndex = 0
+                }
             }
             file.readAsText(this.files[0]);
         });
@@ -136,7 +149,6 @@ export default {
                     let string = memMap.asHexString();
                     var blob = new Blob([string], { type: "text/plain;charset=utf-8" });
                     FileSaver.saveAs(blob, file + ".hex");
-                    break;
                     break;
             }
         },

@@ -4,7 +4,7 @@
             <div class="toolbar-label">TPS Simulator</div>
         </template>
         <template #end>
-            <Dropdown v-model="selectedHardware" :options="hardwares"></Dropdown>
+            <Dropdown v-model="selectedHardware" :options="hardwares" ></Dropdown>
             <i class="pi p-toolbar-separator mr-1" />
             <Button ref="btnstart" class="p-button-rounded mx-1" icon="pi pi-play" v-tooltip.bottom="'start'"
                 :disabled="running" @click="start()"></Button>
@@ -520,6 +520,6 @@ export default {
 
 <style scoped>
 .p-combobox {
-    width: 10rem;
+    width: 20rem;
 }
 </style>
