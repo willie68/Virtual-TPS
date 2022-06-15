@@ -37,27 +37,54 @@
                 <Knob id="PWM1" name="PWM1" v-model="pwm1" :min="0" :max="100" readonly=true valueTemplate="{value}%"
                     :size="70" />
             </div>
-            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" class="col">
+            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RPI2040'].includes(this.selectedHardware)" class="col">
                 <label for="PWM2">PWM 2</label><br />
                 <Knob id="PWM2" name="PWM2" v-model="pwm2" :min="0" :max="100" readonly=true valueTemplate="{value}%"
                     :size="70" />
             </div>
-            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" class="col">
+            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RPI2040'].includes(this.selectedHardware)" class="col">
                 <label for="SRV1">Servo 1</label><br />
                 <Knob id="SRV1" name="SRV1" v-model="srv1" :min="0" :max="180" readonly=true valueTemplate="{value}°"
                     :size="70" />
             </div>
-            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" class="col">
+            <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RPI2040'].includes(this.selectedHardware)" class="col">
                 <label for="SRV2">Servo 2</label><br />
                 <Knob id="SRV2" name="SRV2" v-model="srv2" :min="0" :max="180" readonly=true valueTemplate="{value}°"
                     :size="70" />
             </div>
         </div>
-        <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" class="grid">
+        <div class="grid" v-if="['RPI2040'].includes(this.selectedHardware)">
+            <div class="col">
+                <label for="PWM3">PWM 3</label><br />
+                <Knob id="PWM3" name="PWM3" v-model="pwm3" :min="0" :max="100" readonly=true valueTemplate="{value}%"
+                    :size="70" />
+            </div>
+            <div class="col">
+                <label for="PWM4">PWM 4</label><br />
+                <Knob id="PWM4" name="PWM4" v-model="pwm2" :min="0" :max="100" readonly=true valueTemplate="{value}%"
+                    :size="70" />
+            </div>
+            <div class="col">
+                <label for="SRV3">Servo 3</label><br />
+                <Knob id="SRV3" name="SRV3" v-model="srv1" :min="0" :max="180" readonly=true valueTemplate="{value}°"
+                    :size="70" />
+            </div>
+            <div class="col">
+                <label for="SRV4">Servo 4</label><br />
+                <Knob id="SRV4" name="SRV4" v-model="srv2" :min="0" :max="180" readonly=true valueTemplate="{value}°"
+                    :size="70" />
+            </div>
+        </div>
+        <div v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RPI2040'].includes(this.selectedHardware)" class="grid">
             <div class="col">
                 <label for="tone">Tone</label><br />
                 <InputNumber id="tone" v-model="tone" size="4" mode="decimal" v-tooltip="'tone'" :readonly="true">
                 </InputNumber>
+            </div>
+            <div class="col" v-if="['ArduinoTPS', 'RPI2040'].includes(this.selectedHardware)">
+                <label for="led">LED</label><br />
+                <ToggleButton id="led" name="led" v-model="led" onLabel="" offLabel="" onIcon="pi pi-circle"
+                    offIcon="pi pi-circle" />
             </div>
         </div>
     </Panel>
@@ -76,9 +103,14 @@ export default {
         dout4: Boolean,
         pwm1: Number,
         pwm2: Number,
+        pwm3: Number,
+        pwm4: Number,
         srv1: Number,
         srv2: Number,
+        srv3: Number,
+        srv4: Number,
         tone: Number,
+        led: Boolean,
         selectedHardware: String,
     },
     data() {

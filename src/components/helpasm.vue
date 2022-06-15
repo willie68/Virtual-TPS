@@ -284,18 +284,23 @@
         </tr>
         <tr>
             <td>BSTA PWMx</td>
-            <td>F4,F5</td>
+            <td>F4,F5,F9,FA</td>
             <td>PWM.X=A</td>
         </tr>
         <tr>
             <td>BSTA SRVx</td>
-            <td>F6,F7</td>
+            <td>F6,F7,FB,FC</td>
             <td>Srv.X=A</td>
         </tr>
         <tr>
             <td>TONE</td>
             <td>F8</td>
             <td>Tone A</td>
+        </tr>
+        <tr>
+            <td>LED#</td>
+            <td>FD,FE</td>
+            <td>internal LED on/off</td>
         </tr>
     </table>
     <hr />
@@ -419,11 +424,12 @@
     The assembler supports various directives. We have already met some of them, the macros, loops…<br />
     Further:<br />
 
-    .arduinosps: this sets the hardware to Arduino_TPS. This directive should appear before the actual code.<br />
-    .tinysps: sets the hardware to the Tiny_TPS.<br />
-    .atmega8: sets the hardware to the ATMega8.<br />
-    .holtek: sets the hardware to Holtek.<br />
-    .include: This feature is not supported in web mode
+    <font class="code">.arduinosps</font>: this sets the hardware to Arduino_TPS. This directive should appear before the actual code.<br />
+    <font class="code">.tinysps</font>: sets the hardware to the Tiny_TPS.<br />
+    <font class="code">.atmega8</font>: sets the hardware to the ATMega8.<br />
+    <font class="code">.holtek</font>: sets the hardware to Holtek.<br />
+    <font class="code">.rpi2040</font>: sets the hardware to RPI Pico (2040).<br />
+    <font class="code">.include</font>: This feature is not supported in web mode
 </template>
 
 

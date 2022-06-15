@@ -4,7 +4,7 @@
             <div class="toolbar-label">TPS Simulator</div>
         </template>
         <template #end>
-            <Dropdown v-model="selectedHardware" :options="hardwares" ></Dropdown>
+            <Dropdown v-model="selectedHardware" :options="hardwares"></Dropdown>
             <i class="pi p-toolbar-separator mr-1" />
             <Button ref="btnstart" class="p-button-rounded mx-1" icon="pi pi-play" v-tooltip.bottom="'start'"
                 :disabled="running" @click="start()"></Button>
@@ -26,7 +26,8 @@
         <div class="flex align-items-center justify-content-center font-bold text-white m-2 border-round"
             style="min-width: 500px; min-height: 100px">
             <Simoutputs :dout1="dout1" :dout2="dout2" :dout3="dout3" :dout4="dout4" :pwm1="pwm1" :pwm2="pwm2"
-                :srv1="srv1" :srv2="srv2" :tone="tone" :selectedHardware="selectedHardware"></Simoutputs>
+                :srv1="srv1" :srv2="srv2" :pwm3="pwm3" :pwm4="pwm4" :srv3="srv3" :srv4="srv4" :tone="tone" :led="led"
+                :selectedHardware="selectedHardware"></Simoutputs>
         </div>
     </div>
 
@@ -66,8 +67,13 @@ export default {
             dout4: false,
             pwm1: 0,
             pwm2: 0,
+            pwm3: 0,
+            pwm4: 0,
             srv1: 0,
             srv2: 0,
+            srv3: 0,
+            srv4: 0,
+            led: false,
             sel: false,
             prg: false,
             tone: 0,
@@ -89,7 +95,7 @@ export default {
             started: false,
             running: false,
             selectedHardware: "ArduinoTPS",
-            hardwares: ['Holtek', 'ArduinoTPS', 'TinyTPS', 'ATMega8', 'Microbit', 'RP2040', 'ESP32'],
+            hardwares: ['Holtek', 'ArduinoTPS', 'TinyTPS', 'ATMega8', 'Microbit', 'RPI2040', 'ESP32'],
             myinterval: 0,
             delays: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 30000, 60000],
         };
@@ -499,6 +505,24 @@ export default {
                     break;
                 case 8:
                     this.tone = this.rega;
+                    break;
+                case 9:
+                    this.pwm3 = Math.trunc((this.rega / 256.0) * 100.0);
+                    break;
+                case 10:
+                    this.pwm4 = Math.trunc((this.rega / 256.0) * 100.0);
+                    break;
+                case 11:
+                    this.srv3 = Math.trunc((this.rega / 256.0) * 180.0);
+                    break;
+                case 12:
+                    this.srv4 = Math.trunc((this.rega / 256.0) * 180.0);
+                    break;
+                case 13:
+                    this.led = true;
+                    break;
+                case 14:
+                    this.led = false;
                     break;
                 default:
                     break;

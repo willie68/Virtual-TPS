@@ -48,18 +48,18 @@
         </div>
         <div class="grid">
             <div class="col">
-                <label v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" for="rege">E</label>
+                <label v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RPI2040'].includes(this.selectedHardware)" for="rege">E</label>
             </div>
             <div class="col">
-                <InputText v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" id="rege" v-model="regei" size="4" mode="decimal"
+                <InputText v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RPI2040'].includes(this.selectedHardware)" id="rege" v-model="regei" size="4" mode="decimal"
                     v-tooltip="'Register E'" :readonly="true">
                 </InputText>
             </div>
             <div class="col">
-                <label v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" for="regf">F</label>
+                <label v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RPI2040'].includes(this.selectedHardware)" for="regf">F</label>
             </div>
             <div class="col">
-                <InputText v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)" id="regf" v-model="regfi" size="4" mode="decimal"
+                <InputText v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RPI2040'].includes(this.selectedHardware)" id="regf" v-model="regfi" size="4" mode="decimal"
                     v-tooltip="'Register F'" :readonly="true">
                 </InputText>
             </div>
@@ -95,11 +95,11 @@
             </div>
         </div>
         <div class="grid">
-        <div class="col" v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)">
+        <div class="col" v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RPI2040'].includes(this.selectedHardware)">
             <label for="stack">Stack</label>
             <Listbox id="stack" :options="stacki" :readonly="true" emptyMessage="no stack"></Listbox>
         </div>
-        <div class="col" v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RP2040'].includes(this.selectedHardware)">
+        <div class="col" v-if="['ArduinoTPS', 'Microbit', 'ESP32', 'RPI2040'].includes(this.selectedHardware)">
             <label for="callstack">Callstack</label>
             <Listbox id="callstack" :options="callstacki" :readonly="true" emptyMessage="no callstack"></Listbox>
         </div>
