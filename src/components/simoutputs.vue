@@ -61,17 +61,17 @@
             </div>
             <div class="col">
                 <label for="PWM4">PWM 4</label><br />
-                <Knob id="PWM4" name="PWM4" v-model="pwm2" :min="0" :max="100" readonly=true valueTemplate="{value}%"
+                <Knob id="PWM4" name="PWM4" v-model="pwm4" :min="0" :max="100" readonly=true valueTemplate="{value}%"
                     :size="70" />
             </div>
             <div class="col">
                 <label for="SRV3">Servo 3</label><br />
-                <Knob id="SRV3" name="SRV3" v-model="srv1" :min="0" :max="180" readonly=true valueTemplate="{value}°"
+                <Knob id="SRV3" name="SRV3" v-model="srv3" :min="0" :max="180" readonly=true valueTemplate="{value}°"
                     :size="70" />
             </div>
             <div class="col">
                 <label for="SRV4">Servo 4</label><br />
-                <Knob id="SRV4" name="SRV4" v-model="srv2" :min="0" :max="180" readonly=true valueTemplate="{value}°"
+                <Knob id="SRV4" name="SRV4" v-model="srv4" :min="0" :max="180" readonly=true valueTemplate="{value}°"
                     :size="70" />
             </div>
         </div>

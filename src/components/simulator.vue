@@ -26,7 +26,7 @@
         <div class="flex align-items-center justify-content-center font-bold text-white m-2 border-round"
             style="min-width: 500px; min-height: 100px">
             <Simoutputs :dout1="dout1" :dout2="dout2" :dout3="dout3" :dout4="dout4" :pwm1="pwm1" :pwm2="pwm2"
-                :srv1="srv1" :srv2="srv2" :pwm3="pwm3" :pwm4="pwm4" :srv3="srv3" :srv4="srv4" :tone="tone" :led="led"
+                :pwm3="pwm3" :pwm4="pwm4" :srv1="srv1" :srv2="srv2" :srv3="srv3" :srv4="srv4" :tone="tone" :led="led"
                 :selectedHardware="selectedHardware"></Simoutputs>
         </div>
     </div>
@@ -145,8 +145,13 @@ export default {
             this.doPort(0);
             this.pwm1 = 0;
             this.pwm2 = 0;
+            this.pwm3 = 0;
+            this.pwm4 = 0;
             this.srv1 = 0;
             this.srv2 = 0;
+            this.srv3 = 0;
+            this.srv4 = 0;
+            this.led = false;
             this.tone = 0;
             this.addr = 0;
             this.page = 0;
