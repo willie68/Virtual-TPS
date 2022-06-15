@@ -210,8 +210,8 @@ export default {
             //line.scrollIntoView;
         },
         assemble() {
-            var actionPostUrl =
-                "https://localhost:9543/api/v1/asm/generate";
+            var actionPostUrl = this.asmurl
+                //"https://localhost:9543/api/v1/asm/generate";
             console.log("trying to connect to asm server")
             var options = {
                 method: "POST",

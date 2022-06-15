@@ -32,6 +32,16 @@ import Sidebar from 'primevue/sidebar';
 
 const app = createApp(App);
 
+app.config.globalProperties.asmurl = "https://localhost:9543/api/v1/asm/generate";
+
+if (window.location.hostname.includes("wkla.no-ip.biz")) {
+    app.config.globalProperties.asmurl = "https://wkla.no-ip.biz/vtps/api/v1/asm/generate";
+}
+
+if (window.location.hostname.includes("amplify")) {
+    app.config.globalProperties.asmurl = "https://c0hyzuel25.execute-api.eu-central-1.amazonaws.com/Beta/asm";
+}
+
 app.use(PrimeVue);
 
 app.directive('tooltip', Tooltip);

@@ -14,9 +14,6 @@
 		},
 		{
 			"path": "..\\Arduino_TPS\\tps_asm"
-		},
-		{
-			"path": "H:\\privat\\git-sourcen\\Arduino_TPS\\tps_asm"
 		}
 	],
 	"settings": {}
