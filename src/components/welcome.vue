@@ -33,7 +33,7 @@ export default {
             isCollapsed: false,
             version: __APP_VERSION__,
             header: "",
-            displayModal: true,
+            displayModal: false,
         }
     },
     mounted() {
@@ -50,8 +50,10 @@ export default {
             this.$emit("help");
         },
         openModal() {
-            this.displayModal = true;
-            setTimeout(this.closeModal, 10000)
+            if (!this.islocal) {
+                this.displayModal = true;
+                setTimeout(this.closeModal, 10000)
+            }
         },
         closeModal() {
             this.displayModal = false;

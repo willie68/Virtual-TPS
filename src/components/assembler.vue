@@ -17,25 +17,27 @@
     <TabView v-model:activeIndex="tabIndex">
         <TabPanel header="ASM File">
             <label class="mx-1" for="filename">Filename: </label>
-            <InputText id="filename" name="filename" v-model="filename" />
-            <Textarea style="white-space: pre;  overflow: auto;" v-model="asm" rows="20" cols="36"
-                placeholder="put your assembler code here"></Textarea><br />
+            <InputText id="filename" name="filename" v-model="filename" size="16" />
+            <ScrollPanel style="width: 100%; height: 540px">
+                <prism-editor class="my-editor" v-model="asm" :highlight="highlighter" line-numbers></prism-editor>
+            </ScrollPanel>
             <br />
             <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'compile'" @click="assemble()"
                 label="Compile"></Button>
         </TabPanel>
         <TabPanel header="TPS File">
             <label class="mx-1" for="filename">Filename: </label>
-            <InputText id="filename" name="filename" v-model="filename" />
-            <Textarea ref="tpsfile" style="white-space: pre;  overflow: auto;" v-model="source" rows="20" cols="36"
-                :placeholder="placetps"></Textarea><br />
+            <InputText id="filename" name="filename" v-model="filename" size="16" />
+            <ScrollPanel style="width: 100%; height: 540px">
+                <prism-editor class="my-editor" v-model="source" :highlight="highlighter" line-numbers></prism-editor>
+            </ScrollPanel>
             <br />
             <Button class="p-button-rounded" icon="pi pi-arrow-right" v-tooltip.bottom="'simulate'" @click="toSimu()"
                 label="Simulate"></Button>
         </TabPanel>
         <TabPanel header="Bin File">
             <label class="mx-1" for="filename">Filename: </label>
-            <InputText id="filename" name="filename" readonly="true" v-model="filename" />
+            <InputText id="filename" name="filename" readonly="true" v-model="filename" size="16" />
             <ScrollPanel ref="scroll" style="width: 100%; height: 540px">
                 <div :ref="'ad_' + index" width="100%" v-for="(item, index) in lines">
                     <p v-if="index == this.linenumber" class="line-highlight">{{ item }}
@@ -45,11 +47,21 @@
             </ScrollPanel>
             <br />
             <div>
-                <label style="padding: 70px 0;" for="filename">Output format: </label>
+                <Button class="p-button-rounded" icon="pi pi-save" v-tooltip.bottom="'export as'" @click="exportFile()"
+                    label="export as"></Button>
                 <Dropdown v-model="outputformat" :options="outputformats" placeholder="select an format"></Dropdown>
-                <Button class="p-button-rounded" icon="pi pi-save" v-tooltip.bottom="'export file'"
-                    @click="exportFile()" label="export file"></Button>
             </div>
+        </TabPanel>
+        <TabPanel header="Code">
+            <ScrollPanel ref="scroll" style="width: 100%; height: 540px">
+                <font style="font-family: monospace;">
+                    <div :ref="'ad_' + index" width="100%" v-for="(item, index) in prgcode">
+                        <p v-if="index == this.linenumber + 1" class="line-highlight"><pre>{{ item }}</pre>
+                        </p>
+                        <p v-else><pre>{{ item }}</pre></p>
+                    </div>
+                </font>
+            </ScrollPanel>
         </TabPanel>
     </TabView>
 </template>
@@ -57,8 +69,19 @@
 <script>
 import FileSaver from 'file-saver';
 import MemoryMap from 'nrf-intel-hex';
+import { PrismEditor } from 'vue-prism-editor';
+import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhere
+
+// import highlighting library (you can use any library you want just return html string)
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/themes/prism-tomorrow.css'; // import syntax highlighting styles
 
 export default {
+    components: {
+        PrismEditor,
+    },
     props: {
         linenumber: Number,
         example: String,
@@ -71,13 +94,14 @@ export default {
             hex: "",
             lines: [],
             bin: [],
+            prgcode: [], // contains the code format for manual programming
             com: [],
             selectedExample: {},
             examples: [],
             tabIndex: 0,
             asm: "",
             filename: "file",
-            outputformats: ["IntelHEX", "TPS", "BIN"],
+            outputformats: ["IntelHEX", "TPS", "BIN", "CODE"],
             outputformat: "TPS",
             placetps: "put your tps code here",
         }
@@ -123,6 +147,10 @@ export default {
         });
     },
     methods: {
+        highlighter(code) {
+            console.log(code)
+            return code; // highlight(code, languages.js); // languages.<insert language> to return html with markup
+        },
         saveFile() {
             if (this.tabIndex == 0) {
                 var blob = new Blob([this.asm], { type: "text/plain;charset=utf-8" });
@@ -156,6 +184,14 @@ export default {
                     var blob = new Blob([string], { type: "text/plain;charset=utf-8" });
                     FileSaver.saveAs(blob, file + ".hex");
                     break;
+                case "CODE":
+                    let text = ""
+                    this.prgcode.forEach(line => {
+                        text = text + line + "\r\n"
+                    })
+                    var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+                    FileSaver.saveAs(blob, file + ".code");
+                    break;
             }
         },
         toSimu() {
@@ -174,9 +210,16 @@ export default {
             });
             let addr = 0;
             this.lines = [];
+            this.prgcode = [];
+            let line = "Address  BD Cmd  Data";
+            this.prgcode.push(line)
             this.bin.forEach(element => {
                 let line = '0x' + addr.toString(16).padStart(4, '0') + ": 0x" + element.toString(16).padStart(2, '0') + "  " + this.com[addr];
                 this.lines.push(line)
+                let cmd = (element & 0xF0) >> 4;
+                let data = (element & 0x0F);
+                line = addr.toString(2).padStart(8, '0') + " " + element.toString(16).padStart(2, '0') + " " + cmd.toString(2).padStart(4, '0') + " " + data.toString(2).padStart(4, '0');
+                this.prgcode.push(line)
                 addr++;
             });
             this.tabIndex = 2;
@@ -211,7 +254,7 @@ export default {
         },
         assemble() {
             var actionPostUrl = this.asmurl
-                //"https://localhost:9543/api/v1/asm/generate";
+            //"https://localhost:9543/api/v1/asm/generate";
             console.log("trying to connect to asm server")
             var options = {
                 method: "POST",
@@ -259,6 +302,23 @@ export default {
 </script>
 
 <style>
+.my-editor {
+    /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
+    background: #17212f;
+    color: #ccc;
+
+    /* you must provide font-family font-size line-height. Example: */
+    font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 5px;
+}
+
+/* optional class for removing the outline */
+.prism-editor__textarea:focus {
+    outline: none;
+}
+
 .toolbar-label {
     color: white;
 }

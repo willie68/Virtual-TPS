@@ -51,11 +51,11 @@
         </div>
         <div class="grid">
             <div class="col">
-                <ToggleButton id="SEL" name="SEL" v-model="seli" onLabel="SEL pressed" offLabel="SEL not pressed" onIcon="pi pi-check"
+                <ToggleButton id="SEL" name="SEL" v-model="seli" onLabel="SEL pressed (S2)" offLabel="SEL not pressed (S2)" onIcon="pi pi-check"
                     offIcon="pi pi-times"/>
             </div>
             <div class="col">
-                <ToggleButton id="PRG" name="PRG" v-model="prgi" onLabel="PRG pressed" offLabel="PRG not pressed" onIcon="pi pi-check"
+                <ToggleButton id="PRG" name="PRG" v-model="prgi" onLabel="PRG pressed (S1)" offLabel="PRG not pressed (S1)" onIcon="pi pi-check"
                     offIcon="pi pi-times" />
             </div>
         </div>
