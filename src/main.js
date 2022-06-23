@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
+import { createI18n } from 'vue-i18n';
 
 import "primevue/resources/themes/vela-blue/theme.css";
 import "primevue/resources/primevue.min.css";
@@ -32,8 +33,41 @@ import Sidebar from 'primevue/sidebar';
 
 const app = createApp(App);
 
+export const i18n = createI18n({
+    locale: 'de', // set locale
+    fallbackLocale: 'en', // set fallback locale
+    messages: {
+        en: {
+            message: {
+                welcome: 'Hello, Welcome to Virtual TPS, the TPS Editor and Simulator for your Browser.<br>'+
+                '<a href="http://rcarduino.de/doku.php?id=arduino:arduinosps" target="_blank">TPS</a><br>'+
+                'TPS is 4 Bit Interpreter designed by Burkhard Kainka, implemented on many platforms.'+
+                '<a href="https://www.elektronik-labor.de/Lernpakete/TPS/TPS0.html" target="_blank">Die Tastenprogrammierbare Steuerung</a><br>' +
+                'You can write your TPS programs here in Assembler or in TPS HEX directly, and test them.'+
+                'If you find any issues, please report them on github. <a href = "https://github.com/willie68/Virtual-TPS/issues" target = "_blank">Virtual TPS issues</a>'
+            }
+        },
+        de: {
+            message: {
+                welcome: 'Hallo, willkommen bei Virtual- TPS, dem TPS- Editor und Simulator für Ihren Browser.<br>' +
+                    '<a href="http://rcarduino.de/doku.php?id=arduino:arduinosps" target="_blank">TPS</a><br>' +
+                    'Die TPS ist eine von Burkhard Kainka entwickelter 4-Bit Interpreter, der auf verschiedenen Plattformen' +
+                    'implementiert wurde.<br>' +
+                    '<a href="https://www.elektronik-labor.de/Lernpakete/TPS/TPS0.html" target="_blank">Die Tastenprogrammierbare Steuerung</a><br>' +
+                    '<br />Hier können Sie ihre TPS Programme in TPS Assembler oder auch direkt in TPS schreiben und mit einem Simulator' +
+                    'testen.<br>' +
+                    'Falls Sie Probleme fest gestellt haben, können Sie diese in github unter<a href = "https://github.com/willie68/Virtual-TPS/issues" target = "_blank">Virtual TPS issues</a> berichten.'
+            }
+        }
+    }
+    // If you need to specify other options, you can set other options
+    // ...
+})
+
+app.use(i18n);
+
 app.config.globalProperties.asmurl = "https://localhost:9543/api/v1/asm/generate";
-app.config.globalProperties.islocal = true;
+app.config.globalProperties.islocal = false;
 
 if (window.location.hostname.includes("wkla.no-ip.biz")) {
     app.config.globalProperties.asmurl = "https://wkla.no-ip.biz/vtps/api/v1/asm/generate";

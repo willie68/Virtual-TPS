@@ -8,17 +8,7 @@
         </template>
     </Panel>
     <Dialog :header="header" v-model:visible="displayModal" :style="{ width: '50vw' }" :modal="true">
-        <a href="http://rcarduino.de/doku.php?id=arduino:arduinosps" target="_blank">TPS</a><br />
-        Hallo, willkommen bei Virtual-TPS, dem TPS-Editor und Simulator für Ihren Browser.<br />
-        Die TPS ist eine von Burkhard Kainka entwickelter 4-Bit Interpreter, der auf verschiedenen Plattformen
-        implementiert wurde.<br />
-        <a href="https://www.elektronik-labor.de/Lernpakete/TPS/TPS0.html" target="_blank">Die Tastenprogrammierbare
-            Steuerung</a><br />
-        <br />
-        Hier können Sie ihre TPS Programme in TPS Assembler oder auch direkt in TPS schreiben und mit einem Simulator
-        testen.<br />
-        Falls Sie Probleme fest gestellt haben, können Sie diese in github unter <a
-            href="https://github.com/willie68/Virtual-TPS/issues" target="_blank">Virtual TPS issues</a> berichten.
+        <p v-html="$t('message.welcome')"></p>
         <template #footer>
             <Button label="Close" icon="pi pi-close" @click="closeModal" autofocus />
         </template>
