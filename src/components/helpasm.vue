@@ -160,8 +160,8 @@
             <td>INC</td>
             <td>71</td>
             <td>A=A+1</td>
-            <td>AMD</td>
-            <td>71</td>
+            <td>AND</td>
+            <td>77</td>
             <td>A=A and B</td>
         </tr>
         <tr>
@@ -169,7 +169,7 @@
             <td>72</td>
             <td>A=A-1</td>
             <td>OR</td>
-            <td>71</td>
+            <td>78</td>
             <td>A=A or B</td>
         </tr>
         <tr>
@@ -177,7 +177,7 @@
             <td>73</td>
             <td>A=A+B</td>
             <td>XOR</td>
-            <td>71</td>
+            <td>79</td>
             <td>A=A xor B</td>
         </tr>
         <tr>
@@ -185,7 +185,7 @@
             <td>74</td>
             <td>A=A-B</td>
             <td>NOT</td>
-            <td>71</td>
+            <td>7A</td>
             <td>A=!A</td>
         </tr>
         <tr>
@@ -193,12 +193,12 @@
             <td>75</td>
             <td>A=A*B</td>
             <td>MOD</td>
-            <td>71</td>
+            <td>7B</td>
             <td>A=A%B</td>
         </tr>
         <tr>
             <td>DIV</td>
-            <td>75</td>
+            <td>76</td>
             <td>A=A/B</td>
             <td>BYTE</td>
             <td>7C</td>
@@ -208,6 +208,14 @@
             <td>BSUBA</td>
             <td>7D</td>
             <td>A=B-A</td>
+            <td>SHR</td>
+            <td>7E</td>
+            <td>A=A &gt;&gt; 1 </td>
+        </tr>
+        <tr>
+            <td>SHL</td>
+            <td>7F</td>
+            <td>A=A &lt;&lt; 1</td>
         </tr>
     </table>
     <hr />
