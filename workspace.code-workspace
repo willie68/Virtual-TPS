@@ -16,7 +16,7 @@
 			"path": "..\\Arduino_TPS\\tps_asm"
 		},
 		{
-			"path": "..\\Basl\\golang"
+			"path": "..\\basl\\golang"
 		}
 	],
 	"settings": {}

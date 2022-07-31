@@ -76,6 +76,7 @@ import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhe
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-asciidoc';
 import 'prismjs/themes/prism-tomorrow.css'; // import syntax highlighting styles
 
 export default {
@@ -149,7 +150,8 @@ export default {
     methods: {
         highlighter(code) {
             console.log(code)
-            return code; // highlight(code, languages.js); // languages.<insert language> to return html with markup
+            // return code; 
+            return highlight(code, languages.asciidoc); // languages.<insert language> to return html with markup
         },
         saveFile() {
             if (this.tabIndex == 0) {
